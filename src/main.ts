@@ -1,18 +1,3 @@
-// ==UserScript==
-// @name         save tweet with media contents
-// @namespace    http://twitter.com/
-// @version      20210825
-// @description  save tweet with media contents
-// @downloadURL  https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.js
-// @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.js
-// @author       rayfill
-// @match        https://twitter.com/*
-// @grant        unsafeWindow
-// @grant        GM_xmlhttpRequest
-// @connect      twimg.com
-// @run-at       document-start
-// ==/UserScript==
-
 
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
