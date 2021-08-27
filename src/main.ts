@@ -14,12 +14,12 @@ import { store, load } from './local-storage';
 // save button handler
 // button placer
 
-const SAVED = 'green';
+const SAVED_COLOR = 'green';
 
 declare var unsafeWindow: Window;
 declare var window: Window;
 
-const pattern = new RegExp('^.*/([0-9]+)(?:[?].*)?$');
+const pattern = new RegExp('^(?:https://twitter.com)?/(?:[^/]+)/status/([0-9]+)(?:(?:[?]|\/).*)?$');
 function getId(link: string): string | undefined {
   let match = pattern.exec(link);
   if (match !== null) {
@@ -125,7 +125,7 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
       button.innerText = 'save';
       button.style.width = '100%';
       if (getMark(id)) {
-        button.style.background = SAVED;
+        button.style.background = SAVED_COLOR;
         button.innerText = 'already saved';
       }
 
@@ -141,6 +141,7 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
       }
 
       button.addEventListener('click', () => {
+        console.log(`id: ${id}`);
         if (id === undefined) {
           console.error('id is undefined');
           return;
@@ -152,7 +153,7 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
 
           save(tweet, updateDownloadProgress, updateButtonText).then(() => {
             mark(tweet!);
-            button.style.background = SAVED;
+            button.style.background = SAVED_COLOR;
           }).catch((err) => {
             alert(err);
           });
