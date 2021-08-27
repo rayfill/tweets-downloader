@@ -1,3 +1,4 @@
 [submodule "lib/gm-goodies"]
 	path = lib/gm-goodies
 	url = https://github.com/rayfill/gm-goodies/
+	ignore = dirty
