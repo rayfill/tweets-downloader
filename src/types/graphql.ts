@@ -15,12 +15,21 @@ export interface GraphData {
   };
 };
 
-export interface Data {
-  type: string;
+interface DataTimelineAddEntries {
+  type: 'TimelineAddEntries';
   entries: Array<Entry>;
-};
+}
+interface DataTimelinePinEntry {
+  type: 'TimelinePinEntry';
+  entry: Entry;
+}
+interface DataAny {
+  type: 'Timeline';
+}
 
-interface Entry {
+export type Data = DataTimelinePinEntry | DataTimelineAddEntries | DataAny;
+
+export interface Entry {
   entryId: string;
   sortIndex: string;
   content: Content;
