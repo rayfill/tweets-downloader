@@ -181,6 +181,7 @@ xhrHook((xhr: XMLHttpRequest, ...args: any) => {
   const all = new RegExp("^https://twitter[.]com/i/api/2/notifications/all[.]json.*$");
   const rux = new RegExp("^https://twitter[.]com/i/api/2/rux[.]json.*$");
   const detail = new RegExp("^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$");
+  const userMedia = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$");
 
   let tweets: Tweet[] | undefined;
 
@@ -195,6 +196,9 @@ xhrHook((xhr: XMLHttpRequest, ...args: any) => {
     tweets = xhrParse(JSON.parse(xhr.responseText));
   } else if (detail.test(xhr.responseURL)) {
     console.log(`detail: ${xhr.responseURL}`);
+    tweets = graphParse(JSON.parse(xhr.responseText));
+  } else if (userMedia.test(xhr.responseURL)) {
+    console.log(`userMedia: ${xhr.responseURL}`);
     tweets = graphParse(JSON.parse(xhr.responseText));
   }
 

@@ -1,12 +1,21 @@
 export interface GraphData {
   data: {
-    threaded_conversation_with_injections: {
+    user?: {
+      result: {
+        timeline: {
+          timeline: {
+            instructions:  Array<Data>;
+          }
+        }
+      }
+    },
+    threaded_conversation_with_injections?: {
       instructions: Array<Data>;
     };
   };
 };
 
-interface Data {
+export interface Data {
   type: string;
   entries: Array<Entry>;
 };
