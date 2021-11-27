@@ -37,7 +37,7 @@ export interface Entry {
 
 interface Content {
   entryType: string;
-  itemContent: ItemContent;
+  itemContent?: ItemContent;
 };
 
 interface ItemContent {

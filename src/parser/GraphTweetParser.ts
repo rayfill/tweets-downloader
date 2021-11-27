@@ -2,11 +2,9 @@ import { GraphData as Graph, Data, Entry } from '../types/graphql';
 import { Tweet, TweetMedia } from '../types/tweets';
 
 function parseEntry(entry: Entry): Tweet | undefined {
-  if (entry.content.entryType !== 'TimelineTimelineItem') {
-    return undefined;
-  }
 
-  if (entry.content.itemContent.itemType !== 'TimelineTweet') {
+  if (entry.content.itemContent === undefined ||
+    entry.content.itemContent.itemType !== 'TimelineTweet') {
     return undefined;
   }
 
