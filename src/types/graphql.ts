@@ -38,9 +38,19 @@ export interface Entry {
 interface Content {
   entryType: string;
   itemContent?: ItemContent;
+  items?: Array<Item>;
 };
 
-interface ItemContent {
+interface Item {
+  entryId: string;
+  item: {
+    itemContent: ItemContent;
+  };
+  displayType: string;
+  clientEventInfo: any;
+};
+
+export interface ItemContent {
   itemType: string;
   tweet_results: TweetResults;
   tweetDisplayType: string;
