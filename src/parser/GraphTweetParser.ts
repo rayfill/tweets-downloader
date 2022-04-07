@@ -135,5 +135,14 @@ export function parse(json: Graph): Array<Tweet> {
     }
   }
 
+  if (json.data.threaded_conversation_with_injections_v2 !== undefined) {
+    for (let data of json.data.threaded_conversation_with_injections_v2.instructions) {
+      let tweets = parseData(data);
+      if (tweets.length > 0) {
+        results = results.concat(tweets);
+      }
+    }
+  }
+
   return results;
 }

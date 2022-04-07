@@ -9,6 +9,9 @@ export interface GraphData {
         }
       }
     },
+    threaded_conversation_with_injections_v2?: {
+      instructions: Array<Data>;
+    },
     threaded_conversation_with_injections?: {
       instructions: Array<Data>;
     };
