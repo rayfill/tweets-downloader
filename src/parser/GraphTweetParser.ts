@@ -144,5 +144,14 @@ export function parse(json: Graph): Array<Tweet> {
     }
   }
 
+  if (json.data.bookmark_timeline !== undefined) {
+    for (let data of json.data.bookmark_timeline.timeline.instructions) {
+      let tweets = parseData(data);
+      if (tweets.length > 0) {
+        results = results.concat(tweets);
+      }
+    }
+  }
+
   return results;
 }

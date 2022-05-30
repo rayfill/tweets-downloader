@@ -9,6 +9,11 @@ export interface GraphData {
         }
       }
     },
+    bookmark_timeline?: {
+      timeline: {
+        instructions: Array<Data>;
+      }
+    },
     threaded_conversation_with_injections_v2?: {
       instructions: Array<Data>;
     },

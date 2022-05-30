@@ -78,7 +78,7 @@ function save(tweet: Tweet, downloadNotify?: DownloadNotify, archiveNotify?: Arc
   });
 
   return Promise.all(jobs).then(() => {
-    return zip.generateAsync({ type: 'blob' }, (metadata: { percent: number, currentFile: string }) => {
+    return zip.generateAsync({ type: 'blob' }, (metadata: { percent: number, currentFile: string | null }) => {
       if (archiveNotify !== undefined) {
         if (metadata.currentFile === null) {
           archiveNotify(`${metadata.percent.toPrecision(5)} %`);
@@ -175,7 +175,7 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
   return elem as HTMLElementTagNameMap[K];
 };
 
-xhrHook((xhr: XMLHttpRequest, ...args: any) => {
+xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
 
   const home = new RegExp("^https://twitter[.]com/i/api/2/timeline/home_latest[.]json.*$");
   const all = new RegExp("^https://twitter[.]com/i/api/2/notifications/all[.]json.*$");
@@ -183,6 +183,7 @@ xhrHook((xhr: XMLHttpRequest, ...args: any) => {
   const detail = new RegExp("^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$");
   const userMedia = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$");
   const userTweets = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserTweets.*$");
+  const bookmarks = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/Bookmarks.*$");
 
   let tweets: Tweet[] | undefined;
 
@@ -204,12 +205,25 @@ xhrHook((xhr: XMLHttpRequest, ...args: any) => {
   } else if (userTweets.test(xhr.responseURL)) {
     console.log(`userTweets: ${xhr.responseURL}`);
     tweets = graphParse(JSON.parse(xhr.responseText));
+  } else if (bookmarks.test(xhr.responseURL)) {
+    console.log(`bookmark: ${xhr.responseURL}`);
+    tweets = graphParse(JSON.parse(xhr.responseText));
   }
 
-  if (tweets !== undefined) {
-    tweets.forEach((tweet) => {
-      store(tweet.id_str, tweet);
-    });
+  try {
+    if (tweets !== undefined) {
+      await Promise.all(tweets.map((tweet) => {
+        return store(tweet.id_str, tweet);
+      }));
+    }
+  } catch (e) {
+    if (e instanceof Array) {
+      e.filter(e => e instanceof Error).forEach((e: Error) => {
+        console.error(e);
+      });
+    } else {
+      console.error(e);
+    }
   }
 });
 
