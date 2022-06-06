@@ -26,7 +26,9 @@ function parseEntry(entry: Entry): Array<Tweet> {
 
   itemContents.forEach((itemContent) => {
     let tweet_results = itemContent.tweet_results;
-    if (tweet_results === undefined || tweet_results.result.__typename !== 'Tweet') {
+    if (tweet_results === undefined ||
+      tweet_results.result === undefined ||
+      tweet_results.result.__typename !== 'Tweet') {
       return;
     }
 

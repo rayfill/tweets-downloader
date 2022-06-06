@@ -1,9 +1,11 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-
+const webpack = require('webpack');
 const path = require('path');
 const { readFileSync } = require('fs');
 const TerserPlugin = require('terser-webpack-plugin');
 const isProduction = process.env.NODE_ENV == 'production';
+
+const banner = '*/\n' + String(readFileSync('gm-header.txt')) + '\n/*';
 
 const config = {
   entry: {
@@ -21,18 +23,21 @@ const config = {
   optimization: {
     minimizer: [new TerserPlugin({
       terserOptions: {
-        format: {
-          comments: false
-        }
+        compress: true,
       },
       extractComments: {
-        banner: `\n${readFileSync('./gm-header.txt').toString()}`
+        condition: 'all',
+        banner: banner,
       }
     })]
   },
   plugins: [
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new webpack.BannerPlugin({
+      raw: true,
+      banner: `/*! ${banner} */`,
+    })
   ],
   module: {
     rules: [

@@ -187,27 +187,32 @@ xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
 
   let tweets: Tweet[] | undefined;
 
-  if (home.test(xhr.responseURL)) {
-    console.log(`home: ${xhr.responseURL}`);
-    tweets = xhrParse(JSON.parse(xhr.responseText));
-  } else if (all.test(xhr.responseURL)) {
-    console.log(`all: ${xhr.responseURL}`);
-    tweets = xhrParse(JSON.parse(xhr.responseText));
-  } else if (rux.test(xhr.responseURL)) {
-    console.log(`rux: ${xhr.responseURL}`);
-    tweets = xhrParse(JSON.parse(xhr.responseText));
-  } else if (detail.test(xhr.responseURL)) {
-    console.log(`detail: ${xhr.responseURL}`);
-    tweets = graphParse(JSON.parse(xhr.responseText));
-  } else if (userMedia.test(xhr.responseURL)) {
-    console.log(`userMedia: ${xhr.responseURL}`);
-    tweets = graphParse(JSON.parse(xhr.responseText));
-  } else if (userTweets.test(xhr.responseURL)) {
-    console.log(`userTweets: ${xhr.responseURL}`);
-    tweets = graphParse(JSON.parse(xhr.responseText));
-  } else if (bookmarks.test(xhr.responseURL)) {
-    console.log(`bookmark: ${xhr.responseURL}`);
-    tweets = graphParse(JSON.parse(xhr.responseText));
+  try {
+    if (home.test(xhr.responseURL)) {
+      console.log(`home: ${xhr.responseURL}`);
+      tweets = xhrParse(JSON.parse(xhr.responseText));
+    } else if (all.test(xhr.responseURL)) {
+      console.log(`all: ${xhr.responseURL}`);
+      tweets = xhrParse(JSON.parse(xhr.responseText));
+    } else if (rux.test(xhr.responseURL)) {
+      console.log(`rux: ${xhr.responseURL}`);
+      tweets = xhrParse(JSON.parse(xhr.responseText));
+    } else if (detail.test(xhr.responseURL)) {
+      console.log(`detail: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
+    } else if (userMedia.test(xhr.responseURL)) {
+      console.log(`userMedia: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
+    } else if (userTweets.test(xhr.responseURL)) {
+      console.log(`userTweets: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
+    } else if (bookmarks.test(xhr.responseURL)) {
+      console.log(`bookmark: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
+    }
+  } catch (e) {
+    console.error(`error url: ${xhr.responseURL}`);
+    console.error(e);
   }
 
   try {

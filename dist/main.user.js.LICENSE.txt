@@ -1,3 +1,9 @@
+/* */
+
+/* module decorator */
+
+/* webpack/runtime/global */
+
 /*!
 
 JSZip v3.7.0 - A JavaScript class for generating and reading zip files
@@ -9,3 +15,73 @@ Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/js
 JSZip uses the library pako released under the MIT license :
 https://github.com/nodeca/pako/blob/master/LICENSE
 */
+
+/*! */
+
+/************************************************************************/
+
+/******/
+
+/***/
+
+/*break*/
+
+/*return*/
+
+/*yield*/
+
+// ==/UserScript==
+
+// ==UserScript==
+
+// @author       rayfill
+
+// @connect      twimg.com
+
+// @description  save tweet with media contents
+
+// @downloadURL  https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
+
+// @grant        GM_xmlhttpRequest
+
+// @grant        unsafeWindow
+
+// @match        https://twitter.com/*
+
+// @name         save tweet with media contents
+
+// @namespace    http://twitter.com/
+
+// @run-at       document-start
+
+// @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
+
+// @version      20220606.0
+
+// Avoid security warnings on getResponseHeader when not allowed by CORS
+
+// Check if module is in cache
+
+// Create a new module (and put it into the cache)
+
+// Execute the module function
+
+// Flag the module as loaded
+
+// HTTP methods whose capitalization should be normalized
+
+// Load entry module and return exports
+
+// Return the exports of the module
+
+// TODO: Request constructor should accept input, init
+
+// The module cache
+
+// The require function
+
+// This entry module is referenced by other modules so it can't be inlined
+
+// startup
+
+// webpackBootstrap
