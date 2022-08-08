@@ -19,7 +19,12 @@ export interface GraphData {
     },
     threaded_conversation_with_injections?: {
       instructions: Array<Data>;
-    };
+    },
+    home?: {
+      home_timeline_urt: {
+        instructions: Array<Data>;
+      }
+    }
   };
 };
 
@@ -74,6 +79,10 @@ interface Result {
   rest_id: string;
   core: Core;
   legacy: Legacy;
+  retweeted_status_result?: {
+    result: Result;
+  };
+
 };
 
 interface Core {

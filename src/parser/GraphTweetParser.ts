@@ -39,6 +39,11 @@ function parseEntry(entry: Entry): Array<Tweet> {
 
     let url = userRef.legacy.entities.description.urls.length > 0 ? userRef.legacy.entities.description.urls[0].expanded_url : undefined;
 
+    let retweet_id: string | undefined = undefined;
+    if (tweetRef.retweeted_status_result !== undefined) {
+      retweet_id = tweetRef.retweeted_status_result.result.rest_id;
+    }
+
     let media = Array<TweetMedia>();
     if (tweetRef.legacy.extended_entities !== undefined) {
       for (let medium of tweetRef.legacy.extended_entities.media) {
@@ -78,8 +83,8 @@ function parseEntry(entry: Entry): Array<Tweet> {
         description: userRef.legacy.description,
         url: url
       },
-      id: parseInt(tweet_id_str),
-      id_str: tweet_id_str,
+      id: retweet_id === undefined ? parseInt(tweet_id_str) : parseInt(retweet_id),
+      id_str: retweet_id === undefined ? tweet_id_str : retweet_id,
       user_id: parseInt(user_id_str),
       user_id_str: user_id_str,
       full_text: tweetRef.legacy.full_text,
@@ -121,6 +126,15 @@ export function parse(json: Graph): Array<Tweet> {
 
   if (json.data.user !== undefined) {
     for (let data of json.data.user.result.timeline.timeline.instructions) {
+      let tweets = parseData(data);
+      if (tweets.length > 0) {
+        results = results.concat(tweets);
+      }
+    }
+  }
+
+  if (json.data.home !== undefined) {
+    for (let data of json.data.home.home_timeline_urt.instructions) {
       let tweets = parseData(data);
       if (tweets.length > 0) {
         results = results.concat(tweets);

@@ -108,7 +108,8 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
   if (tagName === 'article') {
       console.log(`call createElement: ${tagName}`);
     elem.style.display = 'block';
-    let handler = () => {
+    let handler = (elem: Element) => {
+      console.log('call handler');
       let id: string | undefined = undefined;
       let time = elem.querySelector('a time');
       if (time !== null) {
@@ -159,8 +160,9 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
           });
         }
       });
-
       elem.appendChild(button);
+
+      /*
       elem.addEventListener('mouseover', () => {
         button.style.display = 'block';
       });
@@ -168,8 +170,12 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
         button.style.display = 'none';
       });
       elem.removeEventListener('mouseover', handler);
+      */
     };
-    elem.addEventListener('mouseover', handler);
+    //elem.addEventListener('mouseover', handler);
+    setTimeout(() => {
+      handler(elem);
+    }, 0);
   }
 
   return elem as HTMLElementTagNameMap[K];
@@ -184,6 +190,7 @@ xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
   const userMedia = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$");
   const userTweets = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserTweets.*$");
   const bookmarks = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/Bookmarks.*$");
+  const homeLatest = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/HomeLatestTimeline.*$");
 
   let tweets: Tweet[] | undefined;
 
@@ -208,6 +215,9 @@ xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
       tweets = graphParse(JSON.parse(xhr.responseText));
     } else if (bookmarks.test(xhr.responseURL)) {
       console.log(`bookmark: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
+    } else if (homeLatest.test(xhr.responseURL)) {
+      console.log(`HomeLatestTimeline: ${xhr.responseURL}`);
       tweets = graphParse(JSON.parse(xhr.responseText));
     }
   } catch (e) {
