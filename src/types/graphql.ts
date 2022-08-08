@@ -79,10 +79,6 @@ interface Result {
   rest_id: string;
   core: Core;
   legacy: Legacy;
-  retweeted_status_result?: {
-    result: Result;
-  };
-
 };
 
 interface Core {
@@ -182,9 +178,27 @@ interface Legacy {
   "created_at": string;
   "conversation_id_str": string;
   "display_text_range": [number, number],
+  "description": string;
   "entities": {
+    user_mentions?: Array<{
+      id_str: string;
+      name: string;
+      screen_name: string;
+      indices: [number, number];
+    }>;
+    description?: {
+      url?: {
+        urls: Array<{
+          display_url: string;
+          expanded_url: string;
+          url: string;
+          indices: [number, number];
+        }>;
+      }
+    }
     media?: Array<Media>;
   },
+  urls: Array<string>;
   "extended_entities"?: {
     "media": Array<Media>;
   },
@@ -204,5 +218,8 @@ interface Legacy {
   "id_str": string,
   "self_thread": {
     "id_str": string
-  } | null
+  } | null;
+  retweeted_status_result?: {
+    result: Result;
+  };
 };

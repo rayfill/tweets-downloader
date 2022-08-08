@@ -40,8 +40,32 @@ function parseEntry(entry: Entry): Array<Tweet> {
     let url = userRef.legacy.entities.description.urls.length > 0 ? userRef.legacy.entities.description.urls[0].expanded_url : undefined;
 
     let retweet_id: string | undefined = undefined;
-    if (tweetRef.retweeted_status_result !== undefined) {
-      retweet_id = tweetRef.retweeted_status_result.result.rest_id;
+    let retweet_user_id: string | undefined = undefined;
+    let retweet_name: string | undefined;
+    let retweet_screen_name: string | undefined;
+    let retweet_description: string | undefined;
+    let retweet_url: string | undefined;
+    let retweet_fulltext: string | undefined;
+
+    if (tweetRef.legacy.retweeted_status_result !== undefined) {
+      retweet_id = tweetRef.legacy.retweeted_status_result.result.rest_id;
+      retweet_user_id = tweetRef.legacy.retweeted_status_result.result.core.user_results.result.rest_id;
+      if (tweetRef.legacy.entities.user_mentions !== undefined) {
+        retweet_name = tweetRef.legacy.entities.user_mentions[0].name;
+        retweet_screen_name = tweetRef.legacy.entities.user_mentions[0].screen_name;
+      } else {
+        retweet_name = '';
+        retweet_screen_name = '';
+      }
+      retweet_description = tweetRef.legacy.retweeted_status_result.result.legacy.description;
+      if (tweetRef.legacy.retweeted_status_result.result.legacy.entities.description !== undefined &&
+        tweetRef.legacy.retweeted_status_result.result.legacy.entities.description.url !== undefined &&
+        tweetRef.legacy.retweeted_status_result.result.legacy.entities.description?.url?.urls.length > 0) {
+        retweet_url = tweetRef.legacy.retweeted_status_result.result.legacy.entities.description.url.urls[0].url;
+      } else {
+        retweet_url = '';
+      }
+      retweet_fulltext = tweetRef.legacy.retweeted_status_result.result.legacy.full_text;
     }
 
     let media = Array<TweetMedia>();
@@ -75,19 +99,19 @@ function parseEntry(entry: Entry): Array<Tweet> {
     }
 
     let tweet: Tweet = {
-      user: {
-        id: parseInt(user_id_str),
-        id_str: user_id_str,
-        name: userRef.legacy.name,
-        screen_name: userRef.legacy.screen_name,
-        description: userRef.legacy.description,
-        url: url
+     user: {
+        id: retweet_user_id === undefined ? parseInt(user_id_str) : parseInt(retweet_user_id),
+        id_str: retweet_user_id === undefined ? user_id_str : retweet_user_id,
+        name: retweet_name ?? userRef.legacy.name,
+        screen_name: retweet_screen_name ?? userRef.legacy.screen_name,
+        description: retweet_description ?? userRef.legacy.description,
+        url: retweet_url ?? url
       },
       id: retweet_id === undefined ? parseInt(tweet_id_str) : parseInt(retweet_id),
-      id_str: retweet_id === undefined ? tweet_id_str : retweet_id,
-      user_id: parseInt(user_id_str),
-      user_id_str: user_id_str,
-      full_text: tweetRef.legacy.full_text,
+      id_str: retweet_id ?? tweet_id_str,
+      user_id: retweet_user_id === undefined ? parseInt(user_id_str) : parseInt(retweet_user_id),
+      user_id_str: retweet_user_id ?? user_id_str,
+      full_text: retweet_fulltext ?? tweetRef.legacy.full_text,
       media: media
     };
 
