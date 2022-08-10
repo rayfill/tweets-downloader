@@ -149,10 +149,20 @@ export function parse(json: Graph): Array<Tweet> {
   let results = new Array<Tweet>();
 
   if (json.data.user !== undefined) {
-    for (let data of json.data.user.result.timeline.timeline.instructions) {
-      let tweets = parseData(data);
-      if (tweets.length > 0) {
-        results = results.concat(tweets);
+    if (json.data.user.result.timeline !== undefined) {
+      for (let data of json.data.user.result.timeline.timeline.instructions) {
+        let tweets = parseData(data);
+        if (tweets.length > 0) {
+          results = results.concat(tweets);
+        }
+      }
+    }
+    if (json.data.user.result.timeline_v2 !== undefined) {
+      for (let data of json.data.user.result.timeline_v2.timeline.instructions) {
+        let tweets = parseData(data);
+        if (tweets.length > 0) {
+          results = results.concat(tweets);
+        }
       }
     }
   }

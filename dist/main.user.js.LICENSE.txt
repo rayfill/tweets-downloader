@@ -56,7 +56,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20220808.1
+// @version      20220810.0
 
 // Avoid security warnings on getResponseHeader when not allowed by CORS
 

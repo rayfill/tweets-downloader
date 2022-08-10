@@ -2,9 +2,14 @@ export interface GraphData {
   data: {
     user?: {
       result: {
-        timeline: {
+        timeline?: {
           timeline: {
             instructions:  Array<Data>;
+          }
+        };
+        timeline_v2?: {
+          timeline: {
+            instructions: Array<Data>;
           }
         }
       }
