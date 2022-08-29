@@ -183,14 +183,15 @@ unsafeWindow.document.createElement = <K extends keyof HTMLElementTagNameMap>(na
 
 xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
 
-  const home = new RegExp("^https://twitter[.]com/i/api/2/timeline/home_latest[.]json.*$");
-  const all = new RegExp("^https://twitter[.]com/i/api/2/notifications/all[.]json.*$");
-  const rux = new RegExp("^https://twitter[.]com/i/api/2/rux[.]json.*$");
-  const detail = new RegExp("^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$");
-  const userMedia = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$");
-  const userTweets = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/UserTweets.*$");
-  const bookmarks = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/Bookmarks.*$");
-  const homeLatest = new RegExp("^https://twitter.com/i/api/graphql/[^/]+/HomeLatestTimeline.*$");
+  const home = new RegExp('^https://twitter[.]com/i/api/2/timeline/home_latest[.]json.*$');
+  const all = new RegExp('^https://twitter[.]com/i/api/2/notifications/all[.]json.*$');
+  const rux = new RegExp('^https://twitter[.]com/i/api/2/rux[.]json.*$');
+  const detail = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$');
+  const userMedia = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$');
+  const userTweets = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/UserTweets.*$');
+  const bookmarks = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/Bookmarks.*$');
+  const homeLatest = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/HomeLatestTimeline.*$');
+  const listLatest = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/ListLatestTweetsTimeline.*$');
 
   let tweets: Tweet[] | undefined;
 
@@ -219,6 +220,9 @@ xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
     } else if (homeLatest.test(xhr.responseURL)) {
       console.log(`HomeLatestTimeline: ${xhr.responseURL}`);
       tweets = graphParse(JSON.parse(xhr.responseText));
+    } else if (listLatest.test(xhr.responseURL)) {
+      console.log(`ListLatestTweetsTimeline: ${xhr.responseURL}`);
+      tweets = graphParse(JSON.parse(xhr.responseText));
     }
   } catch (e) {
     console.error(`error url: ${xhr.responseURL}`);
@@ -228,6 +232,7 @@ xhrHook(async (xhr: XMLHttpRequest, ...args: any) => {
   try {
     if (tweets !== undefined) {
       await Promise.all(tweets.map((tweet) => {
+        console.log(`tweet: ${tweet.id} ${tweet.id_str}`);
         return store(tweet.id_str, tweet);
       }));
     }

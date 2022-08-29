@@ -1,5 +1,12 @@
 export interface GraphData {
   data: {
+    list?: {
+      tweets_timeline: {
+        timeline: {
+          instructions: Array<Data>;
+        }
+      }
+    },
     user?: {
       result: {
         timeline?: {
