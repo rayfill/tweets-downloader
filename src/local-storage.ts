@@ -40,7 +40,10 @@ export async function store(key: string, value: Tweet) {
   try {
     localStorage.setItem(key, JSON.stringify(obj));
   } catch (e) {
-    const keys = localStorage.keys();
+    const keys: Array<string> = [];
+    for (let offset = 0; offset < localStorage.length; ++offset) {
+      keys.push(localStorage.key(offset) as string);
+    }
     const threshold = Date.now() - 24 * 60 * 60 * 1000 * 7; // as 7days ago
     await removeOldKeys(threshold, keys);
     localStorage.setItem(key, JSON.stringify(obj));
