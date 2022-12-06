@@ -1,6 +1,9 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 const webpack = require('webpack');
 const path = require('path');
+//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 const { readFileSync } = require('fs');
 const TerserPlugin = require('terser-webpack-plugin');
 const isProduction = process.env.NODE_ENV == 'production';
@@ -9,9 +12,9 @@ const banner = '*/\n' + String(readFileSync('gm-header.txt')) + '\n/*';
 
 const config = {
   entry: {
-    main: './src/main.ts'
+    main: './src/main.tsx'
   },
-  devtool: 'source-map',
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].user.js'
@@ -21,15 +24,18 @@ const config = {
     host: 'localhost',
   },
   optimization: {
-    minimizer: [new TerserPlugin({
-      terserOptions: {
-        compress: true,
-      },
-      extractComments: {
-        condition: 'all',
-        banner: banner,
-      }
-    })]
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: true,
+        },
+        extractComments: {
+          condition: 'all',
+          banner: banner,
+        }
+      }),
+      new CssMinimizerPlugin(),
+    ]
   },
   plugins: [
     // Add your plugins here
@@ -37,7 +43,10 @@ const config = {
     new webpack.BannerPlugin({
       raw: true,
       banner: `/*! ${banner} */`,
-    })
+    }),
+    // new MiniCssExtractPlugin({
+    //   filename: './src/index.css',
+    // }),
   ],
   module: {
     rules: [
@@ -45,6 +54,33 @@ const config = {
         test: /\.(ts|tsx)$/i,
         loader: 'ts-loader',
         exclude: ['/node_modules/'],
+        options: {
+          compilerOptions: {
+            jsx: isProduction ? 'react-jsx' : 'react-jsxdev',
+          }
+        }
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          {
+            loader: 'style-loader',
+            options: { injectType: 'styleTag' },
+          },
+          // MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  { tailwindcss: {}, },
+                  { autoprefixer: {}, },
+                ],
+              }
+            },
+          }
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

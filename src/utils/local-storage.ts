@@ -1,4 +1,4 @@
-import { Tweet } from './types/tweets';
+import { Tweet } from '../types';
 
 interface Time {
   time: number;
