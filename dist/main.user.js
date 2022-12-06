@@ -11,7 +11,7 @@
 // @grant        unsafeWindow
 // @grant        GM_xmlhttpRequest
 // @connect      twimg.com
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
 
 /* */
