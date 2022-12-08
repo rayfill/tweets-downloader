@@ -125,7 +125,7 @@ function strToUint16Array(str: string) {
 }
 
 function replaceBadCharacter(str: string): string {
-  return str.replace(/\u200d/g, '');
+  return str.replace(/\u200d/g, '_');
 }
 
 export async function saveOnDirectory(dir: FileSystemDirectoryHandle, filename: string, blob: Blob, queryCallback: OverwriteQueryCallback): Promise<boolean> {
