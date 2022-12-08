@@ -1083,7 +1083,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @oss-only
 
-// @run-at       document-end
+// @run-at       document-start
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
