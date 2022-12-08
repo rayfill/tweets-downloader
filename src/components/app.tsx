@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { downloadNoSaveContents, getLoadedTweets, save, } from '../utils/save';
+import { scrollBottomTweet } from '../utils/scroll';
 import { useDialog } from './dialog';
 
 declare var unsafeWindow: Window & {
@@ -46,8 +47,15 @@ export function App({}: {}) {
       const tweets = getLoadedTweets(unsafeWindow.document);
 
       console.log('tweets', tweets);
-      await downloadNoSaveContents(directory!, checkOverwrite);
-      toast.success('save action');
+
+      const saved = await downloadNoSaveContents(directory!, checkOverwrite);
+      if (saved === 0) {
+        scrollBottomTweet();
+        toast.success('load next tweets');
+      } else {
+        toast.success('save tweets');
+      }
+
     } catch (e) {
       toast.error(String(e));
     }

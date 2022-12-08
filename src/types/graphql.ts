@@ -91,6 +91,7 @@ interface Result {
   rest_id: string;
   core: Core;
   legacy: Legacy;
+  tweet: Result;
 };
 
 interface Core {

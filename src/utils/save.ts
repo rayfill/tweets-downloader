@@ -70,8 +70,9 @@ function replaceBadCharacterForFilename(filename: string): string {
   return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_');
 }
 
-export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, callback: OverwriteQueryCallback) {
+export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, callback: OverwriteQueryCallback): Promise<number> {
 
+  let saved = 0;
   try {
     //      button.dataset.downloaded = 'false';
     const downloadables = Array.from(document.querySelectorAll('button[data-downloaded=false][data-tweet-id]'));
@@ -92,16 +93,17 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, cal
       const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
       if (result) {
         mark(tweetId);
+        ++saved;
         const button = document.querySelector(`button[data-type=download][data-tweet-id="${tweetId}"]`) as HTMLButtonElement | null;
         if (button !== null) {
           changeColor(button, true);
         }
       }
     }
-
   } catch (e) {
     toast.error(String(e));
   }
+  return saved;
 }
 
 export async function fileExists(dir: FileSystemDirectoryHandle, filename: string): Promise<boolean> {
@@ -128,7 +130,13 @@ function replaceBadCharacter(str: string): string {
   return str.replace(/\u200d/g, '_');
 }
 
-export async function saveOnDirectory(dir: FileSystemDirectoryHandle, filename: string, blob: Blob, queryCallback: OverwriteQueryCallback): Promise<boolean> {
+export async function saveOnDirectory(
+  dir: FileSystemDirectoryHandle,
+  filename: string,
+  blob: Blob,
+  queryCallback: OverwriteQueryCallback
+): Promise<boolean> {
+
   filename = replaceBadCharacter(filename);
   console.log(`filename: ${filename}`, strToUint16Array(filename));
   if (await fileExists(dir, filename) && !await queryCallback(filename)) {
