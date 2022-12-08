@@ -107,16 +107,36 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, cal
 export async function fileExists(dir: FileSystemDirectoryHandle, filename: string): Promise<boolean> {
   try {
     await dir.getFileHandle(filename);
+    console.debug(`file exists: ${filename}`);
     return true;
   } catch (_) {
+    console.debug(`file not exists`);
     return false;
   }
 }
 
+function strToUint16Array(str: string) {
+  const array: Array<number> = [];
+  for (let offset = 0; offset < str.length; ++offset) {
+    array.push(str[offset].charCodeAt(0));
+  }
+
+  return new Uint16Array(array);
+}
+
+function replaceBadCharacter(str: string): string {
+  return str.replace(/\u200d/g, '');
+}
+
 export async function saveOnDirectory(dir: FileSystemDirectoryHandle, filename: string, blob: Blob, queryCallback: OverwriteQueryCallback): Promise<boolean> {
+  filename = replaceBadCharacter(filename);
+  console.log(`filename: ${filename}`, strToUint16Array(filename));
   if (await fileExists(dir, filename) && !await queryCallback(filename)) {
+    debugger;
+    console.warn(`filename: ${filename} does not saved`);
     return false;
   }
+  console.log(`filename: ${filename} does not exists`);
 
   const file = await dir.getFileHandle(filename, { create: true });
   const stream = await file.createWritable({ keepExistingData: false });

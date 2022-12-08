@@ -7,8 +7,6 @@ import { Dialog } from './components/dialog';
 
 import { createElementHook } from './utils/hooks';
 
-import './index.css';
-
 declare var unsafeWindow: Window;
 declare var window: Window;
 
@@ -16,6 +14,8 @@ unsafeWindow.document.createElement = createElementHook(unsafeWindow.document.cr
 
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContent loaded');
+
+  import('./css');
 
   const div = unsafeWindow.document.createElement('div');
   div.id = 'extension';
