@@ -199,6 +199,12 @@ interface Legacy {
       screen_name: string;
       indices: [number, number];
     }>;
+    urls: Array<{
+          display_url: string;
+          expanded_url: string;
+          url: string;
+          indices: [number, number];
+        }>;
     description?: {
       url?: {
         urls: Array<{

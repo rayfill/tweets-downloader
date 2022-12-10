@@ -24,13 +24,15 @@ function parseEntry(entry: Entry): Array<Tweet> {
   }
 
   itemContents.forEach((itemContent) => {
+
     let tweet_results = itemContent.tweet_results;
     if (tweet_results === undefined ||
       tweet_results.result === undefined ||
       !['Tweet'].includes(tweet_results.result.__typename)) {
       return;
     }
-
+    console.log('tweet', itemContent);
+  
     const tweetRef = tweet_results.result;
     const userRef = tweet_results.result.core.user_results.result;
     const tweet_id_str = tweetRef.rest_id;
@@ -114,7 +116,6 @@ function parseEntry(entry: Entry): Array<Tweet> {
       media: media
     };
 
-    console.log(`tweet id: ${tweet.id_str}`);
     result.push(tweet);
   });
 
@@ -125,6 +126,7 @@ function parseEntry(entry: Entry): Array<Tweet> {
       !['TweetWithVisibilityResults'].includes(tweet_results.result.__typename)) {
       return;
     }
+    console.log(`visibility result`, itemContent);
 
     const tweetRef = tweet_results.result.tweet;
     const userRef = tweet_results.result.tweet.core.user_results.result;
@@ -142,8 +144,9 @@ function parseEntry(entry: Entry): Array<Tweet> {
     let retweet_fulltext: string | undefined;
 
     if (tweetRef.legacy.retweeted_status_result !== undefined) {
-      retweet_id = tweetRef.legacy.retweeted_status_result.result.rest_id;
-      retweet_user_id = tweetRef.legacy.retweeted_status_result.result.core.user_results.result.rest_id;
+      retweet_id = tweetRef.legacy.retweeted_status_result.result.tweet.rest_id;
+      retweet_user_id = tweetRef.legacy.retweeted_status_result.result.tweet.core.user_results.result.rest_id;
+
       if (tweetRef.legacy.entities.user_mentions !== undefined) {
         retweet_name = tweetRef.legacy.entities.user_mentions[0].name;
         retweet_screen_name = tweetRef.legacy.entities.user_mentions[0].screen_name;
@@ -151,15 +154,16 @@ function parseEntry(entry: Entry): Array<Tweet> {
         retweet_name = '';
         retweet_screen_name = '';
       }
-      retweet_description = tweetRef.legacy.retweeted_status_result.result.legacy.description;
-      if (tweetRef.legacy.retweeted_status_result.result.legacy.entities.description !== undefined &&
-        tweetRef.legacy.retweeted_status_result.result.legacy.entities.description.url !== undefined &&
-        tweetRef.legacy.retweeted_status_result.result.legacy.entities.description?.url?.urls.length > 0) {
-        retweet_url = tweetRef.legacy.retweeted_status_result.result.legacy.entities.description.url.urls[0].url;
+
+      retweet_description = tweetRef.legacy.retweeted_status_result.result.tweet.core.user_results.result.legacy.description;
+      if (tweetRef.legacy.retweeted_status_result.result.tweet.legacy.entities.urls !== undefined &&
+        tweetRef.legacy.retweeted_status_result.result.tweet.legacy.entities.urls !== undefined &&
+        tweetRef.legacy.retweeted_status_result.result.tweet.legacy.entities.urls.length > 0) {
+        retweet_url = tweetRef.legacy.retweeted_status_result.result.tweet.legacy.entities.urls[0].url;
       } else {
         retweet_url = '';
       }
-      retweet_fulltext = tweetRef.legacy.retweeted_status_result.result.legacy.full_text;
+      retweet_fulltext = tweetRef.legacy.retweeted_status_result.result.tweet.legacy.full_text;
     }
 
     let media = Array<TweetMedia>();

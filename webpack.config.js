@@ -14,7 +14,7 @@ const config = {
   entry: {
     main: './src/main.tsx'
   },
-  devtool: isProduction ? 'source-map' : 'inline-source-map',
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].user.js'

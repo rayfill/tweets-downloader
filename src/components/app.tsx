@@ -30,7 +30,7 @@ export function App({}: {}) {
       const checkOverwrite = (filename: string) => new Promise<boolean>((resolve) => {
         dialog.showModal(<div className='flex flex-col bg-white'>
           <div className='bg-white'>file "{filename}" overwrite?</div>
-          <div className='flex flex-row bg-white justify-items-center'>
+          <div className='flex flex-row bg-white justify-around'>
             <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
@@ -47,6 +47,7 @@ export function App({}: {}) {
       const tweets = getLoadedTweets(unsafeWindow.document);
 
       console.log('tweets', tweets);
+      toast.success(`try saving ${tweets.size} tweets`);
 
       const saved = await downloadNoSaveContents(directory!, checkOverwrite);
       if (saved === 0) {
