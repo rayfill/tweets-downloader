@@ -1087,7 +1087,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20221215.0
+// @version      20221215.1
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 
@@ -1357,6 +1357,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // Keep in mind the parameter needs to be serializable as a cahche key
 
+// Load entry module and return exports
+
 // Memory Management
 
 // Merge in nonvalidated atoms; we may not have defs for them but they will
@@ -1485,6 +1487,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // Special behavior ONLY invoked by useInterface.
 
+// Special case to return head of iframe instead of iframe itself
+
 // Split declaration and implementation to allow this function to pretend to
 
 // Stop iterating if there are other branches since we don't need to
@@ -1541,7 +1545,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // This could happen if the atom was first initialized in an action that
 
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry module is referenced by other modules so it can't be inlined
 
 // This is every discovered dependency across all executions
 
@@ -1556,6 +1560,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // This state is scoped by Store, since this is in the initAtom() closure
 
 // This will evaluate the atom/selector now as well as when the
+
+// This will throw an exception if access to iframe is blocked
 
 // Throw an error with selector key so that it is clear which
 
@@ -1725,6 +1731,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // don't want to break users if it can be avoided. As the current renderer can
 
+// due to cross-origin restrictions
+
 // duplicate cache entries.  This behavior may be overridden with the
 
 // duplicate keys based on equivalent stringified parameters
@@ -1821,6 +1829,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // istanbul ignore if
 
+// istanbul ignore next
+
 // iterating the tree cache of dependencies.
 
 // knows if it has to restart evaluation if one of them is updated before
@@ -1908,6 +1918,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // since we are the ones initializing on first use.
 
 // so flow doesn't lose the above refinement.
+
+// startup
 
 // status if they have results, have some error, or are still pending.
 

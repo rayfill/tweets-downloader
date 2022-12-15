@@ -6,7 +6,9 @@ import { App } from './components/app';
 import { Dialog } from './components/dialog';
 
 import { createElementHook } from './utils/hooks';
-import './index.css';
+
+import styles from './index.css';
+
 
 declare var unsafeWindow: Window;
 declare var window: Window;
@@ -16,6 +18,7 @@ unsafeWindow.document.createElement = createElementHook(unsafeWindow.document.cr
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContent loaded');
 
+  styles.use();
   const div = unsafeWindow.document.createElement('div');
   div.id = 'extension';
   div.innerText = 'batch download';

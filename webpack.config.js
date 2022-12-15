@@ -14,7 +14,7 @@ const config = {
   entry: {
     main: './src/main.tsx'
   },
-  devtool: 'inline-source-map',
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].user.js'
@@ -66,12 +66,7 @@ const config = {
           {
             loader: 'style-loader',
             options: {
-              injectType: 'styleTag',
-              insert: (element) => {
-                window.addEventListener('DOMContentLoaded', () => {
-                  document.head.appendChild(element);
-                });
-              },
+              injectType: 'lazyStyleTag',
             },
           },
           // MiniCssExtractPlugin.loader,
