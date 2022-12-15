@@ -9,7 +9,6 @@ import { createElementHook } from './utils/hooks';
 
 import styles from './index.css';
 
-
 declare var unsafeWindow: Window;
 declare var window: Window;
 
@@ -18,7 +17,11 @@ unsafeWindow.document.createElement = createElementHook(unsafeWindow.document.cr
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContent loaded');
 
-  styles.use();
+  setTimeout(() => {
+    styles.use();
+    console.log('apply css');
+  }, 1000);
+
   const div = unsafeWindow.document.createElement('div');
   div.id = 'extension';
   div.innerText = 'batch download';
