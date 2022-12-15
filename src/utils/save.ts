@@ -76,6 +76,7 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, cal
   try {
     //      button.dataset.downloaded = 'false';
     const downloadables = Array.from(document.querySelectorAll('button[data-downloaded=false][data-tweet-id]'));
+    toast.success(`try saving ${downloadables.length} tweets`);
     console.log('candidates', downloadables.length);
 
     const tweets: Array<Tweet> = [];

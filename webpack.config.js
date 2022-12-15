@@ -65,7 +65,14 @@ const config = {
         use: [
           {
             loader: 'style-loader',
-            options: { injectType: 'styleTag' },
+            options: {
+              injectType: 'styleTag',
+              insert: (element) => {
+                window.addEventListener('DOMContentLoaded', () => {
+                  document.head.appendChild(element);
+                });
+              },
+            },
           },
           // MiniCssExtractPlugin.loader,
           'css-loader',

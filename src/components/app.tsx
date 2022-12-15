@@ -47,8 +47,6 @@ export function App({}: {}) {
       const tweets = getLoadedTweets(unsafeWindow.document);
 
       console.log('tweets', tweets);
-      toast.success(`try saving ${tweets.size} tweets`);
-
       const saved = await downloadNoSaveContents(directory!, checkOverwrite);
       if (saved === 0) {
         scrollBottomTweet();
