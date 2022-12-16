@@ -1083,11 +1083,11 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @oss-only
 
-// @run-at       document-start
+// @run-at       document-end
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20221215.2
+// @version      20221216.0
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 
@@ -1357,8 +1357,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // Keep in mind the parameter needs to be serializable as a cahche key
 
-// Load entry module and return exports
-
 // Memory Management
 
 // Merge in nonvalidated atoms; we may not have defs for them but they will
@@ -1545,7 +1543,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // This could happen if the atom was first initialized in an action that
 
-// This entry module is referenced by other modules so it can't be inlined
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 
 // This is every discovered dependency across all executions
 
@@ -1918,8 +1916,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // since we are the ones initializing on first use.
 
 // so flow doesn't lose the above refinement.
-
-// startup
 
 // status if they have results, have some error, or are still pending.
 

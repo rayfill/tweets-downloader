@@ -164,7 +164,7 @@ export function getLoadedTweets(doc: Document): Map<string, Tweet> {
   const tweets = buttons.map((button) => button.dataset.tweetId).map(id => {
     const tweet = load(id!);
     if (tweet === undefined) {
-      toast.error(`tweet id: ${id} is not cached`);
+      console.error(`tweet id: ${id} is not cached`);
     }
     return tweet;
   }).filter(tweet => tweet !== undefined) as Array<Tweet>;

@@ -66,10 +66,10 @@ const config = {
           {
             loader: 'style-loader',
             options: {
-              injectType: 'lazyStyleTag',
+              injectType: 'styleTag',
             },
           },
-          // MiniCssExtractPlugin.loader,
+          //MiniCssExtractPlugin.loader,
           'css-loader',
           {
             loader: 'postcss-loader',
