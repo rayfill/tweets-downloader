@@ -48,6 +48,7 @@ export function App({}: {}) {
 
       console.log('tweets', tweets);
       const saved = await downloadNoSaveContents(directory!, checkOverwrite);
+      console.log('saved', saved);
       if (saved === 0) {
         scrollBottomTweet();
         toast.success('load next tweets');
