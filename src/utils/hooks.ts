@@ -110,23 +110,19 @@ export function createElementHook(orig: CreateElementFunctionType, doc: Document
 export function registerXHRHook() {
   xhrHook(async (xhr: XMLHttpRequest, ..._args: any) => {
 
-    const home = new RegExp('^https://twitter[.]com/i/api/2/timeline/home_latest[.]json.*$');
-    const all = new RegExp('^https://twitter[.]com/i/api/2/notifications/all[.]json.*$');
-    const rux = new RegExp('^https://twitter[.]com/i/api/2/rux[.]json.*$');
-    const detail = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$');
-    const userMedia = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/UserMedia.*$');
-    const userTweets = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/UserTweets.*$');
-    const bookmarks = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/Bookmarks.*$');
-    const homeLatest = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/HomeLatestTimeline.*$');
-    const listLatest = new RegExp('^https://twitter.com/i/api/graphql/[^/]+/ListLatestTweetsTimeline.*$');
+    const all = new RegExp('^https://api[.]twitter[.]com/2/notifications/all[.]json.*$');
+    const rux = new RegExp('^https://api[.]twitter[.]com/i/api/2/rux[.]json.*$');
+    const detail = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/TweetDetail.*$');
+    const userMedia = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/UserMedia.*$');
+    const userTweets = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/UserTweets.*$');
+    const bookmarks = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/Bookmarks.*$');
+    const homeLatest = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/HomeLatestTimeline.*$');
+    const listLatest = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/ListLatestTweetsTimeline.*$');
 
     let tweets: Tweet[] | undefined;
 
     try {
-      if (home.test(xhr.responseURL)) {
-        console.log(`home: ${xhr.responseURL}`);
-        tweets = xhrParse(JSON.parse(xhr.responseText));
-      } else if (all.test(xhr.responseURL)) {
+      if (all.test(xhr.responseURL)) {
         console.log(`all: ${xhr.responseURL}`);
         tweets = xhrParse(JSON.parse(xhr.responseText));
       } else if (rux.test(xhr.responseURL)) {
