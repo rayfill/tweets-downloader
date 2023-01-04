@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { downloadNoSaveContents, getLoadedTweets, save, } from '../utils/save';
+import { downloadNoSaveContents } from '../utils/save';
 import { scrollBottomTweet } from '../utils/scroll';
 import { useDialog } from './dialog';
 
@@ -13,10 +13,8 @@ export function App({}: {}) {
   const [directory, setDirectory] = useState<FileSystemDirectoryHandle>();
   const loadDirectory = useCallback(async () => {
     try {
-      console.log('loadDirectory');
       const directoryHandle = await unsafeWindow.showDirectoryPicker({ mode: 'readwrite' });
       setDirectory(directoryHandle);
-      console.log('save directory');
     } catch (e) {
       console.log('caught error', e);
       toast.error('error');
@@ -25,30 +23,43 @@ export function App({}: {}) {
   }, [setDirectory]);
 
   const dialog = useDialog(257);
+  const allOverwrite = useRef<boolean | undefined>();
   const saveAction = useCallback(async () => {
     try {
       const checkOverwrite = (filename: string) => new Promise<boolean>((resolve) => {
+        if (allOverwrite.current !== undefined) {
+          return resolve(allOverwrite.current);
+        }
         dialog.showModal(<div className='flex flex-col bg-white'>
           <div className='bg-white'>file "{filename}" overwrite?</div>
-          <div className='flex flex-row bg-white justify-around'>
+          <div className='flex flex-row bg-white justify-center'>
             <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 resolve(true);
-              }}>yes</div>
+              }}>上書き</div>
+            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+              onClick={() => {
+                dialog.close();
+                allOverwrite.current = true;
+                resolve(true);
+              }}>すべて上書き</div>
             <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 resolve(false);
-              }}>no</div>
+              }}>無視</div>
+            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+              onClick={() => {
+                dialog.close();
+                allOverwrite.current = false;
+                resolve(true);
+              }}>すべて無視</div>
           </div>
         </div>);
       });
-      const tweets = getLoadedTweets(unsafeWindow.document);
-
-      console.log('tweets', tweets);
+      //const tweets = getLoadedTweets(unsafeWindow.document);
       const saved = await downloadNoSaveContents(directory!, checkOverwrite);
-      console.log('saved', saved);
       if (saved === 0) {
         scrollBottomTweet();
         toast.success('load next tweets');
@@ -60,8 +71,6 @@ export function App({}: {}) {
       toast.error(String(e));
     }
   }, [directory, dialog]);
-
-  console.log('current directory', directory);
 
   return <><div
     className='rounded-full bg-white select-none text-center border-2'

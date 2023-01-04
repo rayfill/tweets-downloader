@@ -1087,7 +1087,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20221223.0
+// @version      20230104.0
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 
@@ -1984,3 +1984,19 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 /////////////////
 
 ///////////////////
+
+//console.log('candidates', downloadables.length);
+
+//console.log('dialogMap registered', dialogId);
+
+//console.log('tweet', itemContent);
+
+//console.log(`tweet id: ${tweet.id_str}`);
+
+//console.log(`visibility result`, itemContent);
+
+//console.log(articles.length);
+
+//console.log(button);
+
+//const tweets = getLoadedTweets(unsafeWindow.document);

@@ -77,7 +77,7 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, cal
     //      button.dataset.downloaded = 'false';
     const downloadables = Array.from(document.querySelectorAll('button[data-downloaded=false][data-tweet-id]'));
     toast.success(`try saving ${downloadables.length} tweets`);
-    console.log('candidates', downloadables.length);
+    //console.log('candidates', downloadables.length);
 
     const tweets: Array<Tweet> = [];
     for (const button of downloadables) {
@@ -139,13 +139,12 @@ export async function saveOnDirectory(
 ): Promise<boolean> {
 
   filename = replaceBadCharacter(filename);
-  console.log(`filename: ${filename}`, strToUint16Array(filename));
   if (await fileExists(dir, filename) && !await queryCallback(filename)) {
     debugger;
     console.warn(`filename: ${filename} does not saved`);
+    console.log(`filename: ${filename}`, strToUint16Array(filename));
     return false;
   }
-  console.log(`filename: ${filename} does not exists`);
 
   const file = await dir.getFileHandle(filename, { create: true });
   const stream = await file.createWritable({ keepExistingData: false });

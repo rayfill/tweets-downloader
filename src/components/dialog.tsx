@@ -45,7 +45,7 @@ export function Dialog({ dialogId }: DialogProps) {
 
   const dialogRef = createRef<HTMLDialogElement>();
   dialogMap.set(dialogId, dialogRef);
-  console.log('dialogMap registered', dialogId);
+  //console.log('dialogMap registered', dialogId);
 
   useEffect(() => {
     return () => {

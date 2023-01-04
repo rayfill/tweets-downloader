@@ -31,8 +31,8 @@ function parseEntry(entry: Entry): Array<Tweet> {
       !['Tweet'].includes(tweet_results.result.__typename)) {
       return;
     }
-    console.log('tweet', itemContent);
-  
+    //console.log('tweet', itemContent);
+
     const tweetRef = tweet_results.result;
     const userRef = tweet_results.result.core.user_results.result;
     const tweet_id_str = tweetRef.rest_id;
@@ -126,7 +126,7 @@ function parseEntry(entry: Entry): Array<Tweet> {
       !['TweetWithVisibilityResults'].includes(tweet_results.result.__typename)) {
       return;
     }
-    console.log(`visibility result`, itemContent);
+    //console.log(`visibility result`, itemContent);
 
     const tweetRef = tweet_results.result.tweet;
     const userRef = tweet_results.result.tweet.core.user_results.result;
@@ -213,7 +213,7 @@ function parseEntry(entry: Entry): Array<Tweet> {
       media: media
     };
 
-    console.log(`tweet id: ${tweet.id_str}`);
+    //console.log(`tweet id: ${tweet.id_str}`);
     result.push(tweet);
   });
 

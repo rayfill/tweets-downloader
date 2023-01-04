@@ -110,6 +110,11 @@ export function createElementHook(orig: CreateElementFunctionType, doc: Document
 export function registerXHRHook() {
   xhrHook(async (xhr: XMLHttpRequest, ..._args: any) => {
 
+    if (xhr.status < 200 && xhr.status >= 300) {
+      toast.error(`failed to fetch ${xhr.responseURL}`);
+      return;
+    }
+
     const all = new RegExp('^https://api[.]twitter[.]com/2/notifications/all[.]json.*$');
     const rux = new RegExp('^https://api[.]twitter[.]com/i/api/2/rux[.]json.*$');
     const detail = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/TweetDetail.*$');
@@ -148,6 +153,7 @@ export function registerXHRHook() {
         tweets = graphParse(JSON.parse(xhr.responseText));
       }
     } catch (e) {
+      debugger;
       toast.error(`error url: ${xhr.responseURL}`);
       toast.error(String(e));
       console.error(`error url: ${xhr.responseURL}`);
