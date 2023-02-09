@@ -51,7 +51,7 @@ function parseEntry(entry: Entry): Array<Tweet> {
     if (tweetRef.legacy.retweeted_status_result !== undefined) {
       retweet_id = tweetRef.legacy.retweeted_status_result.result.rest_id;
       retweet_user_id = tweetRef.legacy.retweeted_status_result.result.core.user_results.result.rest_id;
-      if (tweetRef.legacy.entities.user_mentions !== undefined) {
+      if (tweetRef.legacy.entities.user_mentions !== undefined && tweetRef.legacy.entities.user_mentions.length > 0) {
         retweet_name = tweetRef.legacy.entities.user_mentions[0].name;
         retweet_screen_name = tweetRef.legacy.entities.user_mentions[0].screen_name;
       } else {

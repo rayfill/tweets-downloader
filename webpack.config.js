@@ -23,6 +23,10 @@ const config = {
     open: true,
     host: 'localhost',
   },
+  performance: {
+    maxEntrypointSize: 1024 * 1024 * 1024,
+    maxAssetSize: 5 * 1024 * 1024 * 1024,
+  },
   optimization: {
     minimizer: [
       new TerserPlugin({
