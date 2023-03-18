@@ -115,14 +115,14 @@ export function registerXHRHook() {
       return;
     }
 
-    const all = new RegExp('^https://api[.]twitter[.]com/2/notifications/all[.]json.*$');
+    const all = new RegExp('^https://twitter[.]com/i/2/notifications/all[.]json.*$');
     const rux = new RegExp('^https://api[.]twitter[.]com/i/api/2/rux[.]json.*$');
-    const detail = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/TweetDetail.*$');
-    const userMedia = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/UserMedia.*$');
-    const userTweets = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/UserTweets.*$');
-    const bookmarks = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/Bookmarks.*$');
-    const homeLatest = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/HomeLatestTimeline.*$');
-    const listLatest = new RegExp('^https://api[.]twitter[.]com/graphql/[^/]+/ListLatestTweetsTimeline.*$');
+    const detail = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$');
+    const userMedia = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/UserMedia.*$');
+    const userTweets = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/UserTweets.*$');
+    const bookmarks = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/Bookmarks.*$');
+    const homeLatest = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/HomeLatestTimeline.*$');
+    const listLatest = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/ListLatestTweetsTimeline.*$');
 
     let tweets: Tweet[] | undefined;
 
