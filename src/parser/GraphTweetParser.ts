@@ -292,8 +292,10 @@ export function parse(json: Graph): Array<Tweet> {
     }
   }
 
-  if (json.data.bookmark_timeline !== undefined) {
-    for (let data of json.data.bookmark_timeline.timeline.instructions) {
+  const timeline = json.data.bookmark_timeline ?? json.data.bookmark_timeline_v2;
+  if (timeline !== undefined) {
+    const instructions = timeline.timeline.instructions;
+    for (let data of instructions) {
       let tweets = parseData(data);
       if (tweets.length > 0) {
         results = results.concat(tweets);

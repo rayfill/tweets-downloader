@@ -26,6 +26,11 @@ export interface GraphData {
         instructions: Array<Data>;
       }
     },
+    bookmark_timeline_v2?: {
+      timeline: {
+        instructions: Array<Data>;
+      }
+    }
     threaded_conversation_with_injections_v2?: {
       instructions: Array<Data>;
     },
