@@ -70,25 +70,16 @@ function replaceBadCharacterForFilename(filename: string): string {
   return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_');
 }
 
-export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, callback: OverwriteQueryCallback): Promise<number> {
+export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, tweetsGenerator: () => Array<string>, callback: OverwriteQueryCallback): Promise<number> {
 
   let saved = 0;
   try {
-    //      button.dataset.downloaded = 'false';
-    const downloadables = Array.from(document.querySelectorAll('button[data-downloaded=false][data-tweet-id]'));
-    toast.success(`try saving ${downloadables.length} tweets`);
-    //console.log('candidates', downloadables.length);
+    const tweetIds = tweetsGenerator();
+    toast.success(`try saving ${tweetIds.length} tweets`);
 
-    const tweets: Array<Tweet> = [];
-    for (const button of downloadables) {
-      const id = (button as HTMLButtonElement).dataset.tweetId!;
-      const tweet = load(id);
-      if (tweet === undefined) {
-        toast.error(`tweet id ${id} does not cached.`);
-        continue;
-      }
-      tweets.push(tweet);
-    }
+    const tweets = tweetIds.map(id => load(id)).filter<Tweet>((maybeTweet): maybeTweet is Tweet => {
+      return maybeTweet !== undefined;
+    });
     const results = await Promise.all(tweets.map((tweet) => save(tweet).then(([blob, filename]) => [tweet.id_str, blob, filename] as [string, Blob, string])));
     for await (const [tweetId, blob, filename] of results) {
       const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
@@ -140,7 +131,7 @@ export async function saveOnDirectory(
 
   filename = replaceBadCharacter(filename);
   if (await fileExists(dir, filename) && !await queryCallback(filename)) {
-    debugger;
+    //debugger;
     console.warn(`filename: ${filename} does not saved`);
     console.log(`filename: ${filename}`, strToUint16Array(filename));
     return false;

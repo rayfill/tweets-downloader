@@ -11,6 +11,7 @@ import { parse as graphParse } from '../parser/GraphTweetParser';
 import type { Tweet } from '../types';
 
 import { NONSAVE_COLOR, SAVED_COLOR } from '../types';
+import { Subject } from 'rxjs';
 
 export function changeColor(button: HTMLButtonElement, saved: boolean) {
   if (saved) {
@@ -27,7 +28,7 @@ export function changeColor(button: HTMLButtonElement, saved: boolean) {
 type CreateElementFunctionType<K extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap> =
   (name: K, options?: ElementCreationOptions) => HTMLElementTagNameMap[K];
 
-export function createElementHook(orig: CreateElementFunctionType, doc: Document): CreateElementFunctionType {
+export function createElementHook(orig: CreateElementFunctionType, doc: Document, notifyTarget: Subject<string>): CreateElementFunctionType {
 
   const hookedCreateElement = <K extends keyof HTMLElementTagNameMap>(
     name: K,
@@ -51,6 +52,7 @@ export function createElementHook(orig: CreateElementFunctionType, doc: Document
         if (id === undefined) {
           return elem;
         }
+        notifyTarget.next(id);
 
         let button = doc.createElement('button');
         button.style.width = '100%';

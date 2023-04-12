@@ -1,5 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useHistoryChange } from '../hooks/use-history-change';
+import { useLoadTweets } from '../load-tweets';
 import { downloadNoSaveContents } from '../utils/save';
 import { scrollBottomTweet } from '../utils/scroll';
 import { useDialog } from './dialog';
@@ -24,7 +26,7 @@ export function App({}: {}) {
 
   const dialog = useDialog(257);
   const allOverwrite = useRef<boolean | undefined>();
-  const saveAction = useCallback(async () => {
+  const saveAction = useCallback(async (getTweets: () => Array<string>) => {
     try {
       const checkOverwrite = (filename: string) => new Promise<boolean>((resolve) => {
         if (allOverwrite.current !== undefined) {
@@ -59,7 +61,7 @@ export function App({}: {}) {
         </div>);
       });
       //const tweets = getLoadedTweets(unsafeWindow.document);
-      const saved = await downloadNoSaveContents(directory!, checkOverwrite);
+      const saved = await downloadNoSaveContents(directory!, getTweets, checkOverwrite);
       if (saved === 0) {
         scrollBottomTweet();
         toast.success('load next tweets');
@@ -72,6 +74,18 @@ export function App({}: {}) {
     }
   }, [directory, dialog]);
 
+  const historyChange = useHistoryChange();
+  const [getTweets, clearTweets] = useLoadTweets();
+  useEffect(() => {
+    if (historyChange !== null) {
+
+      return historyChange.subscribe(_msg => {
+        console.log(`page changed: ${_msg}`);
+        clearTweets();
+      }).unsubscribe;
+    }
+  }, [historyChange]);
+
   return <><div
     className='rounded-full bg-white select-none text-center border-2'
     onClick={() => {
@@ -79,7 +93,7 @@ export function App({}: {}) {
       if (directory === undefined) {
         loadDirectory();
       } else {
-        saveAction();
+        saveAction(getTweets);
     }}}
   >{directory === undefined ? '保存ディレクトリの設定' : 'ロード済みツイートの保存'}</div></>;
 }

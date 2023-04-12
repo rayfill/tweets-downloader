@@ -3,6 +3,7 @@ import { RecoilRoot } from 'recoil';
 import { Toaster } from 'react-hot-toast';
 import { App } from './components/app';
 import { Dialog } from './components/dialog';
+import { getLoadTweetNotifier, LoadTweetsContext } from './load-tweets';
 
 import { createElementHook } from './utils/hooks';
 
@@ -11,7 +12,10 @@ import './index.css';
 declare var unsafeWindow: Window;
 declare var window: Window;
 
-unsafeWindow.document.createElement = createElementHook(unsafeWindow.document.createElement, unsafeWindow.document);
+const subject = getLoadTweetNotifier();
+unsafeWindow.document.createElement = createElementHook(unsafeWindow.document.createElement, unsafeWindow.document, subject);
+
+
 
 window.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -24,11 +28,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     unsafeWindow.document.body.appendChild(div);
 
     const root = createRoot(div);
-    root.render(<RecoilRoot>
-      <Toaster position='top-center' />
-      <Dialog dialogId={257} />
-      <App />
-    </RecoilRoot>);
+    root.render(
+      <LoadTweetsContext>
+        <RecoilRoot>
+          <Toaster position='top-left' />
+          <Dialog dialogId={257} />
+          <App />
+        </RecoilRoot>
+      </LoadTweetsContext>
+    );
   } catch (e) {
     console.error(e);
   }
