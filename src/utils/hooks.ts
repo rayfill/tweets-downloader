@@ -75,25 +75,31 @@ export function createElementHook(orig: CreateElementFunctionType, doc: Document
           updateButtonText(`${total} bytes downloaded`);
         }
 
-        button.addEventListener('click', () => {
-          if (id === undefined) {
-            toast.error('id is undefined');
-            return;
-          }
-          let tweet = load(id);
+        button.addEventListener('click', async () => {
+          try {
+            if (id === undefined) {
+              toast.error('id is undefined');
+              return;
+            }
+            let tweet = load(id);
 
-          if (tweet !== undefined) {
+            if (tweet !== undefined) {
 
-            save(tweet, updateDownloadProgress, updateButtonText).then(([blob, filename]) => {
+              const result = await save(tweet, updateDownloadProgress, updateButtonText)
+              if (result === null) {
+                toast.error(`id: ${tweet.id_str} does not saved`);
+                return;
+              }
+              const blob = result[0];
+              const filename = result[1];
               saveAs(blob, filename);
-            }).then(() => {
               mark(tweet!);
               button.style.background = SAVED_COLOR;
               button.dataset.downloaded = 'downloaded';
               postMessage({ tweet: tweet }, '*');
-            }).catch((err) => {
-              alert(err);
-            });
+            }
+          } catch (e) {
+            alert(e);
           }
         });
         elem.appendChild(button);

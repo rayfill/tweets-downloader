@@ -11,44 +11,45 @@ export async function save(
   tweet: Tweet,
   downloadNotify?: DownloadNotify,
   archiveNotify?: ArchiveNotify
-): Promise<[Blob, string]> {
+): Promise<[Blob, string] | null> {
 
-  let zip = new JSZip();
-  const userId = tweet.user.id_str;
-  const tweetId = tweet.id_str;
-  const name = tweet.user.name;
+  try {
+    let zip = new JSZip();
+    const userId = tweet.user.id_str;
+    const tweetId = tweet.id_str;
+    const name = tweet.user.name;
 
-  const filename = `${userId}_${tweetId}_${name}.zip`;
+    const filename = `${userId}_${tweetId}_${name}.zip`;
 
-  zip.file('tweet.txt', tweet.full_text);
-  let index = 0;
-  let jobs = tweet.media.map(async (medium): Promise<void> => {
+    zip.file('tweet.txt', tweet.full_text);
+    let index = 0;
+    let jobs = tweet.media.map(async (medium): Promise<void> => {
 
-    let url = medium.url;
-    if (medium.media_type === 'photo') {
-      let ext = extension(medium.url);
-      url = url.substring(0, url.length - (ext.length + 1));
-      url = `${url}?format=${ext}&name=orig`;
-    }
-
-    let previous: number = 0;
-    const response = await GM_fetch(url, {
-      onDownloadProgress: (ev: { loaded: number }) => {
-        let totalInFrame = ev.loaded - previous;
-        previous = ev.loaded;
-        if (downloadNotify !== undefined) {
-          downloadNotify(totalInFrame);
-        }
+      let url = medium.url;
+      if (medium.media_type === 'photo') {
+        let ext = extension(medium.url);
+        url = url.substring(0, url.length - (ext.length + 1));
+        url = `${url}?format=${ext}&name=orig`;
       }
-    });
-    if (response.ok) {
-      zip.file(`${index++}.${extension(medium.url)}`, response.blob());
-      return;
-    }
-    throw new TypeError(response.statusText);
-  });
 
-  await Promise.all(jobs);
+      let previous: number = 0;
+      const response = await GM_fetch(url, {
+        onDownloadProgress: (ev: { loaded: number }) => {
+          let totalInFrame = ev.loaded - previous;
+          previous = ev.loaded;
+          if (downloadNotify !== undefined) {
+            downloadNotify(totalInFrame);
+          }
+        }
+      });
+      if (response.ok) {
+        zip.file(`${index++}.${extension(medium.url)}`, response.blob());
+        return;
+      }
+      throw new TypeError(response.statusText);
+    });
+
+    await Promise.all(jobs);
 
     const blob = await zip.generateAsync({ type: 'blob' },
       (metadata: { percent: number, currentFile: string | null }) => {
@@ -60,7 +61,11 @@ export async function save(
           }
         }
       });
-  return [blob, filename];
+    return [blob, filename];
+  } catch (e) {
+    console.error('failed save tweet', tweet);
+    return null;
+  }
 }
 
 function replaceBadCharacterForFilename(filename: string): string {
@@ -80,8 +85,16 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
     const tweets = tweetIds.map(id => load(id)).filter<Tweet>((maybeTweet): maybeTweet is Tweet => {
       return maybeTweet !== undefined;
     });
-    const results = await Promise.all(tweets.map((tweet) => save(tweet).then(([blob, filename]) => [tweet.id_str, blob, filename] as [string, Blob, string])));
-    for await (const [tweetId, blob, filename] of results) {
+    console.log('before save');
+    const results = (await Promise.all(tweets.map(async (tweet) => {
+      const dataOrNull = await save(tweet);
+      if (dataOrNull === null) {
+        return null;
+      }
+      return [tweet.id_str, dataOrNull[0], dataOrNull[1]] as [string, Blob, string];
+    }))).filter((data): data is [string, Blob, string] => data !== null);
+    console.log('afeter save');
+    for (const [tweetId, blob, filename] of results) {
       const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
       if (result) {
         mark(tweetId);
