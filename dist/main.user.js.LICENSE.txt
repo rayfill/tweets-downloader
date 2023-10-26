@@ -1085,7 +1085,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20231016.0
+// @version      20231026.0
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 

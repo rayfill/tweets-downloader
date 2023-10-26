@@ -87,7 +87,7 @@ export function App({}: {}) {
   }, [historyChange]);
 
   return <><div
-    className='rounded-full bg-white select-none text-center border-2'
+    className='rounded-full box-border bg-white text-black select-none text-center border-2'
     onClick={() => {
       console.log('directory', directory);
       if (directory === undefined) {
