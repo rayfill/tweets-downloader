@@ -10,7 +10,7 @@ declare var unsafeWindow: Window & {
   showDirectoryPicker: (options: { mode: 'read' | 'readwrite' }) => Promise<FileSystemDirectoryHandle>;
 };
 
-export function App({}: {}) {
+export function App(_: {}) {
 
   const [directory, setDirectory] = useState<FileSystemDirectoryHandle>();
   const loadDirectory = useCallback(async () => {
@@ -87,7 +87,7 @@ export function App({}: {}) {
   }, [historyChange]);
 
   return <><div
-    className='rounded-full box-border bg-white text-black select-none text-center border-2'
+    className='rounded-full m-2 box-border bg-white text-black select-none text-center border-2'
     onClick={() => {
       console.log('directory', directory);
       if (directory === undefined) {

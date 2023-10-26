@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const div = unsafeWindow.document.createElement('div');
     div.id = 'extension';
     div.innerText = 'batch download';
-    div.className = 'bg-white fixed top-16 right-16 z-10 min-w-20 min-h-3'
+    div.className = 'bg-transparent fixed top-16 right-16 z-10 min-w-20 min-h-3'
     unsafeWindow.document.body.appendChild(div);
 
     const root = createRoot(div);
