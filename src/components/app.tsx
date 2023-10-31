@@ -33,25 +33,25 @@ export function App(_: {}) {
           return resolve(allOverwrite.current);
         }
         dialog.showModal(<div className='flex flex-col bg-white'>
-          <div className='bg-white'>file "{filename}" overwrite?</div>
+          <div className='bg-white text-black'>file "{filename}" overwrite?</div>
           <div className='flex flex-row bg-white justify-center'>
-            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+            <div className='select-none bg-slate-50 text-black border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 resolve(true);
               }}>上書き</div>
-            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+            <div className='select-none bg-slate-50 text-black border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 allOverwrite.current = true;
                 resolve(true);
               }}>すべて上書き</div>
-            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+            <div className='select-none bg-slate-50 text-black border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 resolve(false);
               }}>無視</div>
-            <div className='select-none bg-slate-50 border-2 border-black rounded-lg'
+            <div className='select-none bg-slate-50 text-black border-2 border-black rounded-lg'
               onClick={() => {
                 dialog.close();
                 allOverwrite.current = false;
