@@ -5,27 +5,38 @@ interface Time {
 };
 
 const iterateCount = 100;
+const tweetKey = /^[1-9][0-9]+$/;
 async function removeOldKeys(threshold: number, restKeys: Array<string>): Promise<void> {
 
   const current = restKeys.slice(0, iterateCount);
   const rest = restKeys.slice(iterateCount);
 
   for (const key of current) {
-    const value = localStorage.getItem(key);
-    if (value === null) {
-      localStorage.removeItem(key);
+    if (!tweetKey.test(key)) {
       continue;
     }
+    try {
+      const value = localStorage.getItem(key);
+      if (value === null) {
+        localStorage.removeItem(key);
+        continue;
+      }
 
-    const obj = JSON.parse(value) as Tweet & Partial<Time>;
-    if (typeof obj.time !== 'number') {
+      const obj = JSON.parse(value) as Tweet & Partial<Time>;
+      if (typeof obj.time !== 'number') {
+        localStorage.removeItem(key);
+        continue;
+      }
+
+      if (obj.time < threshold) {
+        localStorage.removeItem(key);
+      }
+    } catch (e) {
+      console.log(`key: ${key}`);
+      console.log('value', localStorage.getItem(key));
       localStorage.removeItem(key);
-      continue;
     }
 
-    if (obj.time < threshold) {
-      localStorage.removeItem(key);
-    }
   }
 
   if (rest.length > 0) {
@@ -56,5 +67,11 @@ export function load(key: string): Tweet | undefined {
   if (value === null) {
     return undefined;
   }
-  return JSON.parse(value) as Tweet;
+  try {
+    return JSON.parse(value) as Tweet;
+  } catch (e) {
+    console.log(`key: ${key}`);
+    console.log(value);
+    throw e;
+  }
 }

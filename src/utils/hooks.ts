@@ -170,9 +170,16 @@ export function registerXHRHook() {
 
     try {
       if (tweets !== undefined) {
-        await Promise.all(tweets.map((tweet) => {
+        await Promise.all(tweets.map(async (tweet) => {
           console.log(`tweet: ${tweet.id} ${tweet.id_str}`);
-          return store(tweet.id_str, tweet);
+          try {
+            return await store(tweet.id_str, tweet);
+          } catch (e) {
+            debugger;
+            console.log(tweet);
+            console.error(e);
+            throw e;
+          }
         }));
       }
     } catch (e) {

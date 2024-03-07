@@ -72,7 +72,7 @@ function replaceBadCharacterForFilename(filename: string): string {
 
   // :/\?*~|[]()<>!"'#$%&
   // /[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g
-  return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_');
+  return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_').normalize('NFKC');
 }
 
 export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, tweetsGenerator: () => Array<string>, callback: OverwriteQueryCallback): Promise<number> {
@@ -93,16 +93,36 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
       }
       return [tweet.id_str, dataOrNull[0], dataOrNull[1]] as [string, Blob, string];
     }))).filter((data): data is [string, Blob, string] => data !== null);
-    console.log('afeter save');
+    console.log('after save');
     for (const [tweetId, blob, filename] of results) {
-      const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
-      if (result) {
-        mark(tweetId);
-        ++saved;
-        const button = document.querySelector(`button[data-type=download][data-tweet-id="${tweetId}"]`) as HTMLButtonElement | null;
-        if (button !== null) {
-          changeColor(button, true);
+      try {
+        const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
+        if (result) {
+          mark(tweetId);
+          ++saved;
+          const button = document.querySelector(`button[data-type=download][data-tweet-id="${tweetId}"]`) as HTMLButtonElement | null;
+          if (button !== null) {
+            changeColor(button, true);
+          }
         }
+      } catch (e) {
+        console.log(`faild save filename: ${filename}`);
+        console.log(Array.from(filename));
+        console.log(Array.from(filename).map(s => s.codePointAt(0)));
+        console.log('NFC');
+        console.log(Array.from(filename.normalize('NFC')));
+        console.log(Array.from(filename.normalize('NFC')).map(s => s.codePointAt(0)));
+        console.log('NFD');
+        console.log(Array.from(filename.normalize('NFD')));
+        console.log(Array.from(filename.normalize('NFD')).map(s => s.codePointAt(0)));
+        console.log('NFKC');
+        console.log(Array.from(filename.normalize('NFKC')));
+        console.log(Array.from(filename.normalize('NFKC')).map(s => s.codePointAt(0)));
+        console.log('NFKD');
+        console.log(Array.from(filename.normalize('NFKD')));
+        console.log(Array.from(filename.normalize('NFKD')).map(s => s.codePointAt(0)));
+        console.error(e);
+        throw e;
       }
     }
   } catch (e) {
