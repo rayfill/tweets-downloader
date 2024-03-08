@@ -72,7 +72,7 @@ function replaceBadCharacterForFilename(filename: string): string {
 
   // :/\?*~|[]()<>!"'#$%&
   // /[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g
-  return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_').normalize('NFKC');
+  return filename.normalize('NFKC').replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_').normalize('NFKC');
 }
 
 export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, tweetsGenerator: () => Array<string>, callback: OverwriteQueryCallback): Promise<number> {
