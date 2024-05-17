@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         save tweet with media contents
-// @namespace    http://twitter.com/
-// @version      20240308.0
+// @namespace    http://x.com/
+// @version      20240517.0
 // @description  save tweet with media contents
 // @downloadURL  https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 // @author       rayfill
-// @match        https://twitter.com/*
+// @match        https://x.com/*
 // @grant        unsafeWindow
 // @grant        GM_xmlhttpRequest
 // @connect      twimg.com

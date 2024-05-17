@@ -41,14 +41,9 @@ export function createElementHook(orig: CreateElementFunctionType, doc: Document
     if (tagName === 'article') {
       elem.style.display = 'block';
       let handler = (elem: Element) => {
-        let id: string | undefined = undefined;
-        let time = elem.querySelector('a time');
-        if (time !== null) {
-          id = getId((time.parentNode! as HTMLAnchorElement).href);
-        } else {
-          id = getId(window.location.href);
-        }
 
+        let time = elem.querySelector('a time');
+        const id = time !== null ? getId((time.parentNode! as HTMLAnchorElement).href) : getId(window.location.href);
         if (id === undefined) {
           return elem;
         }
@@ -123,14 +118,14 @@ export function registerXHRHook() {
       return;
     }
 
-    const all = new RegExp('^https://twitter[.]com/i/2/notifications/all[.]json.*$');
-    const rux = new RegExp('^https://api[.]twitter[.]com/i/api/2/rux[.]json.*$');
-    const detail = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/TweetDetail.*$');
-    const userMedia = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/UserMedia.*$');
-    const userTweets = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/UserTweets.*$');
-    const bookmarks = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/Bookmarks.*$');
-    const homeLatest = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/HomeLatestTimeline.*$');
-    const listLatest = new RegExp('^https://twitter[.]com/i/api/graphql/[^/]+/ListLatestTweetsTimeline.*$');
+    const all = new RegExp('^https://x[.]com/i/2/notifications/all[.]json.*$');
+    const rux = new RegExp('^https://api[.]x[.]com/i/api/2/rux[.]json.*$');
+    const detail = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/TweetDetail.*$');
+    const userMedia = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/UserMedia.*$');
+    const userTweets = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/UserTweets.*$');
+    const bookmarks = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/Bookmarks.*$');
+    const homeLatest = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/HomeLatestTimeline.*$');
+    const listLatest = new RegExp('^https://x[.]com/i/api/graphql/[^/]+/ListLatestTweetsTimeline.*$');
 
     let tweets: Tweet[] | undefined;
 
