@@ -14,27 +14,27 @@
   "author": "rayfill@gmail.com",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
     "@types/file-saver": "^2.0.4",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@types/wicg-file-system-access": "^2020.9.5",
     "autoprefixer": "^10.4.13",
-    "css-loader": "^6.7.2",
+    "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^4.2.2",
-    "esbuild": "^0.14.42",
+    "esbuild": "^0.25.5",
     "mini-css-extract-plugin": "^2.7.1",
-    "postcss": "^8.4.19",
-    "postcss-loader": "^7.0.2",
-    "style-loader": "^3.3.1",
-    "tailwindcss": "^3.2.4",
+    "postcss": "^8.5.4",
+    "postcss-loader": "^8.1.1",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^4.1.8",
     "terser-webpack-plugin": "^5.1.4",
-    "ts-loader": "^9.2.3",
+    "ts-loader": "^9.5.2",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
-    "webpack": "^5.44.0",
-    "webpack-cli": "^4.7.2"
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
     "file-saver": "^2.0.5",
@@ -43,6 +43,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "recoil": "^0.7.6",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "zod": "^3.25.53"
   }
 }
