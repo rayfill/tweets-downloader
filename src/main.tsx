@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     div.id = 'extension';
     div.innerText = 'batch download';
     div.className = 'bg-transparent absolute top-16 right-16 z-10 min-w-20 min-h-3'
-    div.style.position = 'absolute';
+    div.style.position = 'fixed';
     div.style.top = '32px';
     div.style.right = '16px';
 

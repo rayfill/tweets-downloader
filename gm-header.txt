@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         save tweet with media contents
 // @namespace    http://x.com/
-// @version      20250617.1
+// @version      20250617.2
 // @description  save tweet with media contents
 // @downloadURL  https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
