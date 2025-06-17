@@ -88,19 +88,77 @@ export interface ItemContent {
 };
 
 interface TweetResults {
-  result: Result;
+  result: Result | VisibilityResult;
+};
+
+interface UserResultCore {
+  user_results: {
+    result: {
+      __typename: 'User';
+      id: string;
+      rest_id: string;
+      avatar: {
+        image_url: string;
+      },
+      core: UserCore;
+    }
+  }
+}
+
+interface TweetResult {
+  id: string;
+  rest_id: string;
+  avatar: {
+    image_url: string;
+  },
+  core: UserResultCore;
 };
 
 interface Result {
-  __typename: string;
+  __typename: 'Tweet';
   rest_id: string;
   core: Core;
   legacy: Legacy;
-  tweet: Result;
+  //tweet: TweetResult;
 };
+
+interface VisibilityUserResultCore {
+  user_results: {
+    result: {
+      __typename: 'User';
+      id: string;
+      rest_id: string;
+      avatar: {
+        image_url: string;
+      },
+      core: UserCore;
+    }
+  }
+}
+
+interface TweetVisibilityResult {
+  id: string;
+  rest_id: string;
+  avatar: {
+    image_url: string;
+  },
+  core: VisibilityUserResultCore;
+  legacy: Legacy;
+};
+
+interface VisibilityResult {
+  __typename: 'TweetWithVisibilityResults';
+  tweet: TweetVisibilityResult;
+}
 
 interface Core {
   user_results: { result: User };
+};
+
+interface UserCore {
+  created_at: string;
+  name: string;
+  screen_name: string;
 };
 
 interface User {
@@ -108,6 +166,7 @@ interface User {
   rest_id: string;
   affiliates_highlighted_label: any;
   legacy: UserLegacy;
+  core: UserCore;
 };
 
 interface UserLegacy {

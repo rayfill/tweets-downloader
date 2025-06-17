@@ -65,8 +65,6 @@ into children's state keys as well.
 
 /* ["default"] */
 
-/* ["default"].locals */
-
 /* binding */
 
 /* eslint-disable fb-www/typeof-undefined */
@@ -673,11 +671,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Calls the current batcher function and passes the
- * provided callback function.
- */
-
-/**
  * Combines multiple Iterables into a single Iterable.
  * Traverses the input Iterables in the order provided and maintains the order
  * of their elements.
@@ -1085,7 +1078,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20240517.0
+// @version      20250617.0
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 
@@ -1541,7 +1534,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // This could happen if the atom was first initialized in an action that
 
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 
 // This is every discovered dependency across all executions
 
@@ -1881,6 +1874,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // remove any more nodes.
 
+// removed by dead control flow
+
 // reset but have no stored value (validated or unvalidated) to reset from:
 
 // resolved, but also when changing synchronous values because this may cause
@@ -1977,363 +1972,27 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // }
 
-//# sourceMappingURL=ArgumentOutOfRangeError.js.map
-
-//# sourceMappingURL=EmptyError.js.map
-
-//# sourceMappingURL=Immediate.js.map
-
-//# sourceMappingURL=NotFoundError.js.map
-
-//# sourceMappingURL=Notification.js.map
-
-//# sourceMappingURL=NotificationFactories.js.map
-
-//# sourceMappingURL=ObjectUnsubscribedError.js.map
-
-//# sourceMappingURL=Observable.js.map
-
-//# sourceMappingURL=Scheduler.js.map
-
-//# sourceMappingURL=SequenceError.js.map
-
 //# sourceMappingURL=Subscription.js.map
-
-//# sourceMappingURL=UnsubscriptionError.js.map
-
-//# sourceMappingURL=animationFrame.js.map
 
 //# sourceMappingURL=animationFrames.js.map
 
-//# sourceMappingURL=args.js.map
-
 //# sourceMappingURL=argsArgArrayOrObject.js.map
-
-//# sourceMappingURL=argsOrArgArray.js.map
-
-//# sourceMappingURL=arrRemove.js.map
-
-//# sourceMappingURL=asap.js.map
-
-//# sourceMappingURL=async.js.map
-
-//# sourceMappingURL=audit.js.map
-
-//# sourceMappingURL=auditTime.js.map
-
-//# sourceMappingURL=bindCallback.js.map
-
-//# sourceMappingURL=bindNodeCallback.js.map
-
-//# sourceMappingURL=buffer.js.map
-
-//# sourceMappingURL=bufferWhen.js.map
-
-//# sourceMappingURL=catchError.js.map
-
-//# sourceMappingURL=combineAll.js.map
 
 //# sourceMappingURL=combineLatest.js.map
 
-//# sourceMappingURL=combineLatestAll.js.map
-
-//# sourceMappingURL=concat.js.map
-
-//# sourceMappingURL=concatAll.js.map
-
-//# sourceMappingURL=concatMap.js.map
-
-//# sourceMappingURL=concatMapTo.js.map
-
-//# sourceMappingURL=config.js.map
-
-//# sourceMappingURL=connect.js.map
-
-//# sourceMappingURL=connectable.js.map
-
-//# sourceMappingURL=count.js.map
-
-//# sourceMappingURL=createErrorClass.js.map
-
-//# sourceMappingURL=createObject.js.map
-
-//# sourceMappingURL=dateTimestampProvider.js.map
-
-//# sourceMappingURL=debounce.js.map
-
-//# sourceMappingURL=debounceTime.js.map
-
-//# sourceMappingURL=defaultIfEmpty.js.map
-
-//# sourceMappingURL=defer.js.map
-
-//# sourceMappingURL=delay.js.map
-
-//# sourceMappingURL=delayWhen.js.map
-
-//# sourceMappingURL=dematerialize.js.map
-
-//# sourceMappingURL=distinct.js.map
-
 //# sourceMappingURL=distinctUntilChanged.js.map
-
-//# sourceMappingURL=distinctUntilKeyChanged.js.map
-
-//# sourceMappingURL=elementAt.js.map
 
 //# sourceMappingURL=empty.js.map
 
-//# sourceMappingURL=errorContext.js.map
-
-//# sourceMappingURL=every.js.map
-
-//# sourceMappingURL=executeSchedule.js.map
-
-//# sourceMappingURL=exhaust.js.map
-
-//# sourceMappingURL=exhaustAll.js.map
-
-//# sourceMappingURL=exhaustMap.js.map
-
-//# sourceMappingURL=expand.js.map
-
-//# sourceMappingURL=filter.js.map
-
-//# sourceMappingURL=finalize.js.map
-
-//# sourceMappingURL=find.js.map
-
-//# sourceMappingURL=findIndex.js.map
-
-//# sourceMappingURL=first.js.map
-
-//# sourceMappingURL=firstValueFrom.js.map
-
-//# sourceMappingURL=flatMap.js.map
-
-//# sourceMappingURL=forkJoin.js.map
-
-//# sourceMappingURL=from.js.map
-
 //# sourceMappingURL=fromEvent.js.map
-
-//# sourceMappingURL=fromEventPattern.js.map
-
-//# sourceMappingURL=fromSubscribable.js.map
-
-//# sourceMappingURL=groupBy.js.map
-
-//# sourceMappingURL=identity.js.map
-
-//# sourceMappingURL=ignoreElements.js.map
-
-//# sourceMappingURL=iif.js.map
-
-//# sourceMappingURL=index.js.map
 
 //# sourceMappingURL=innerFrom.js.map
 
-//# sourceMappingURL=interval.js.map
-
-//# sourceMappingURL=isArrayLike.js.map
-
-//# sourceMappingURL=isAsyncIterable.js.map
-
-//# sourceMappingURL=isDate.js.map
-
-//# sourceMappingURL=isEmpty.js.map
-
-//# sourceMappingURL=isFunction.js.map
-
-//# sourceMappingURL=isInteropObservable.js.map
-
-//# sourceMappingURL=isIterable.js.map
-
-//# sourceMappingURL=isObservable.js.map
-
-//# sourceMappingURL=isPromise.js.map
-
-//# sourceMappingURL=isScheduler.js.map
-
-//# sourceMappingURL=iterator.js.map
-
-//# sourceMappingURL=joinAllInternals.js.map
-
-//# sourceMappingURL=last.js.map
-
-//# sourceMappingURL=lastValueFrom.js.map
-
-//# sourceMappingURL=lift.js.map
-
-//# sourceMappingURL=map.js.map
-
-//# sourceMappingURL=mapTo.js.map
-
-//# sourceMappingURL=materialize.js.map
-
-//# sourceMappingURL=max.js.map
-
-//# sourceMappingURL=merge.js.map
-
-//# sourceMappingURL=mergeAll.js.map
-
-//# sourceMappingURL=mergeInternals.js.map
-
-//# sourceMappingURL=mergeMap.js.map
-
-//# sourceMappingURL=mergeMapTo.js.map
-
-//# sourceMappingURL=mergeScan.js.map
-
-//# sourceMappingURL=min.js.map
-
-//# sourceMappingURL=multicast.js.map
-
-//# sourceMappingURL=never.js.map
-
-//# sourceMappingURL=noop.js.map
-
-//# sourceMappingURL=not.js.map
-
-//# sourceMappingURL=observable.js.map
-
-//# sourceMappingURL=observeOn.js.map
-
-//# sourceMappingURL=of.js.map
-
-//# sourceMappingURL=onErrorResumeNext.js.map
-
-//# sourceMappingURL=pairs.js.map
-
-//# sourceMappingURL=pairwise.js.map
-
-//# sourceMappingURL=partition.js.map
-
-//# sourceMappingURL=performanceTimestampProvider.js.map
-
-//# sourceMappingURL=pipe.js.map
-
-//# sourceMappingURL=pluck.js.map
-
-//# sourceMappingURL=publish.js.map
-
-//# sourceMappingURL=publishBehavior.js.map
-
-//# sourceMappingURL=publishLast.js.map
-
-//# sourceMappingURL=publishReplay.js.map
-
-//# sourceMappingURL=queue.js.map
-
-//# sourceMappingURL=race.js.map
-
-//# sourceMappingURL=range.js.map
-
-//# sourceMappingURL=reduce.js.map
-
-//# sourceMappingURL=refCount.js.map
-
-//# sourceMappingURL=repeat.js.map
-
-//# sourceMappingURL=repeatWhen.js.map
-
-//# sourceMappingURL=reportUnhandledError.js.map
-
-//# sourceMappingURL=retry.js.map
-
-//# sourceMappingURL=retryWhen.js.map
-
-//# sourceMappingURL=sample.js.map
-
-//# sourceMappingURL=sampleTime.js.map
-
-//# sourceMappingURL=scan.js.map
-
-//# sourceMappingURL=scanInternals.js.map
-
-//# sourceMappingURL=scheduleArray.js.map
-
-//# sourceMappingURL=scheduleAsyncIterable.js.map
-
-//# sourceMappingURL=scheduleIterable.js.map
-
-//# sourceMappingURL=scheduleObservable.js.map
-
-//# sourceMappingURL=schedulePromise.js.map
-
-//# sourceMappingURL=scheduleReadableStreamLike.js.map
-
-//# sourceMappingURL=scheduled.js.map
-
-//# sourceMappingURL=sequenceEqual.js.map
-
 //# sourceMappingURL=share.js.map
-
-//# sourceMappingURL=shareReplay.js.map
-
-//# sourceMappingURL=single.js.map
-
-//# sourceMappingURL=skip.js.map
-
-//# sourceMappingURL=skipLast.js.map
-
-//# sourceMappingURL=skipUntil.js.map
-
-//# sourceMappingURL=skipWhile.js.map
-
-//# sourceMappingURL=startWith.js.map
-
-//# sourceMappingURL=subscribeOn.js.map
-
-//# sourceMappingURL=switchAll.js.map
-
-//# sourceMappingURL=switchMap.js.map
-
-//# sourceMappingURL=switchMapTo.js.map
-
-//# sourceMappingURL=switchScan.js.map
-
-//# sourceMappingURL=take.js.map
-
-//# sourceMappingURL=takeUntil.js.map
-
-//# sourceMappingURL=takeWhile.js.map
-
-//# sourceMappingURL=tap.js.map
-
-//# sourceMappingURL=throttle.js.map
-
-//# sourceMappingURL=throttleTime.js.map
-
-//# sourceMappingURL=throwError.js.map
 
 //# sourceMappingURL=throwIfEmpty.js.map
 
-//# sourceMappingURL=throwUnobservableError.js.map
-
-//# sourceMappingURL=timeInterval.js.map
-
 //# sourceMappingURL=timeout.js.map
-
-//# sourceMappingURL=timeoutWith.js.map
-
-//# sourceMappingURL=timer.js.map
-
-//# sourceMappingURL=timestamp.js.map
-
-//# sourceMappingURL=toArray.js.map
-
-//# sourceMappingURL=types.js.map
-
-//# sourceMappingURL=using.js.map
-
-//# sourceMappingURL=window.js.map
-
-//# sourceMappingURL=windowTime.js.map
-
-//# sourceMappingURL=windowWhen.js.map
-
-//# sourceMappingURL=zipAll.js.map
 
 /////////////////
 
@@ -2342,10 +2001,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 //console.log('dialogMap registered', dialogId);
 
 //console.log('tweet', itemContent);
-
-//console.log(`tweet id: ${tweet.id_str}`);
-
-//console.log(`visibility result`, itemContent);
 
 //console.log(articles.length);
 

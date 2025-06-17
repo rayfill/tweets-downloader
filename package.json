@@ -16,6 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.27.4",
     "@babel/preset-env": "^7.27.2",
+    "@tailwindcss/postcss": "^4.1.10",
     "@types/file-saver": "^2.0.4",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
