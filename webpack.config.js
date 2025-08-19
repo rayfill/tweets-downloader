@@ -80,11 +80,12 @@ const config = {
             options: {
               postcssOptions: {
                 plugins: [
-                  { "@tailwindcss/postcss": {}, },
+		  require('@tailwindcss/postcss')
+                  // { "@tailwindcss/postcss": {}, },
                   //{ autoprefixer: {}, },
                 ],
               }
-            },
+            }
           }
         ],
       },

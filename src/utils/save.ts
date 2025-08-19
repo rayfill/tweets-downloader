@@ -68,11 +68,16 @@ export async function save(
   }
 }
 
+const badChars = /\p{Script_Extensions=Han}|\p{General_Category=Punctuation}|\p{General_Category=Math_Symbol}|\p{General_Category=Symbol}/gu
+const invisibleRegex = /[\u200B\u200C\u200D\u00A0\u202F\u2060\u200E\u200F\u2028\u2029]/g;
+
 function replaceBadCharacterForFilename(filename: string): string {
 
   // :/\?*~|[]()<>!"'#$%&
   // /[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g
-  return filename.replace(/[:\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_').replace(/\u{200b}/ug, '');
+  const replaced = filename.replace(invisibleRegex, '').replace(/[ :\/\\?*~\|\[\]\(\)\<\>\!\"\'#\$%&]/g, '_');//.replace(badChars, '_');
+  console.log(`src : ${filename}\ndest: ${replaced}\ndest len: ${replaced.length}`);
+  return replaced;
 }
 
 export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, tweetsGenerator: () => Array<string>, callback: OverwriteQueryCallback): Promise<number> {
@@ -96,7 +101,7 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
     console.log('after save');
     for (const [tweetId, blob, filename] of results) {
       try {
-        const result = await saveOnDirectory(dir, replaceBadCharacterForFilename(filename), blob, callback);
+        const result = await saveOnDirectory(dir, filename, blob, callback);
         if (result) {
           mark(tweetId);
           ++saved;
@@ -106,6 +111,10 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
           }
         }
       } catch (e) {
+	console.log(e);
+	if (e instanceof Error && 'stack' in e) {
+	  console.log(`stack: ${e.stack}`);
+	}
         console.log(`faild save filename: ${filename}`);
         console.log(Array.from(filename));
         console.log(Array.from(filename).map(s => s.codePointAt(0)));
@@ -151,18 +160,15 @@ function strToUint16Array(str: string) {
   return new Uint16Array(array);
 }
 
-function replaceBadCharacter(str: string): string {
-  return str.replace(/\u200d/g, '_');
-}
-
 export async function saveOnDirectory(
   dir: FileSystemDirectoryHandle,
-  filename: string,
+  originalFilename: string,
   blob: Blob,
   queryCallback: OverwriteQueryCallback
 ): Promise<boolean> {
 
-  filename = replaceBadCharacter(filename);
+  const filename = replaceBadCharacterForFilename(originalFilename.replace(/\.zip$/, '')) + '.zip';
+  console.log(`escaped filename: ${filename}`);
   if (await fileExists(dir, filename) && !await queryCallback(filename)) {
     //debugger;
     console.warn(`filename: ${filename} does not saved`);
