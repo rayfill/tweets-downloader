@@ -4,6 +4,11 @@
 */
 
 /*
+ * During SSR, unstable_batchedUpdates may be undefined so this
+ * falls back to a basic function that executes the batch
+ */
+
+/*
  * The purpose of the Batcher is to observe when React batches end so that
  * Recoil state changes can be batched. Whenever Recoil state changes, we call
  * setState on the batcher. Then we wait for that change to be committed, which
@@ -89,18 +94,20 @@ into children's state keys as well.
 
 /* module decorator */
 
+/* unused harmony exports DefaultValue, RecoilEnv, RecoilLoadable, atom, atomFamily, constSelector, errorSelector, isRecoilValue, noWait, readOnlySelector, retentionZone, selector, selectorFamily, snapshot_UNSTABLE, useGetRecoilValueInfo_UNSTABLE, useGotoRecoilSnapshot, useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilSnapshot, useRecoilState, useRecoilStateLoadable, useRecoilState_TRANSITION_SUPPORT_UNSTABLE, useRecoilStoreID, useRecoilTransactionObserver_UNSTABLE, useRecoilTransaction_UNSTABLE, useRecoilValue, useRecoilValueLoadable, useRecoilValueLoadable_TRANSITION_SUPPORT_UNSTABLE, useRecoilValue_TRANSITION_SUPPORT_UNSTABLE, useResetRecoilState, useRetain, useSetRecoilState, waitForAll, waitForAllSettled, waitForAny, waitForNone */
+
 /* webpack/runtime/compat get default export */
 
 /*!
 
-JSZip v3.7.0 - A JavaScript class for generating and reading zip files
+JSZip v3.10.1 - A JavaScript class for generating and reading zip files
 <http://stuartk.com/jszip>
 
 (c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
-Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/master/LICENSE.markdown.
+Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
 
 JSZip uses the library pako released under the MIT license :
-https://github.com/nodeca/pako/blob/master/LICENSE
+https://github.com/nodeca/pako/blob/main/LICENSE
 */
 
 /*! */
@@ -683,7 +690,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -694,7 +701,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -707,7 +714,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -721,7 +728,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -734,37 +741,12 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * Wraps another recoil value and prevents writing to it.
- *
- * 
- * @format
- * @oncall recoil
- */
-
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- * @format
- * @oncall recoil
- */
-
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * This is to export esstiential functions from react-dom
- * for our web build
  *
  * 
  * @format
@@ -942,13 +924,21 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // $FlowFixMe(site=recoil) Window does not have a FlowType definition https://github.com/facebook/flow/issues/6709
 
+// $FlowFixMe[incompatible-call]
+
+// $FlowFixMe[incompatible-return]
+
 // $FlowFixMe[incompatible-type]
 
 // $FlowFixMe[incompatible-use]
 
+// $FlowFixMe[invalid-computed-prop]
+
 // $FlowFixMe[missing-local-annot]
 
 // $FlowFixMe[prop-missing]
+
+// $FlowFixMe[underconstrained-implicit-instantiation]
 
 // $FlowIssue
 
@@ -1078,7 +1068,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // @updateURL    https://raw.githubusercontent.com/rayfill/tweets-downloader/main/dist/main.user.js
 
-// @version      20250819.1
+// @version      20260610.0
 
 // A "Snapshot" is "read-only" and captures a specific set of values of atoms.
 
@@ -1386,6 +1376,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // Note that we DO NOT delete from nodeToComponentSubscriptions because this
 
+// Note: RECOIL_GKS_ENABLED settings will only be honored in OSS builds of Recoil
+
 // Notifying components is needed to wake from suspense, even when using
 
 // Object.getOwnPropertyNames() has consistent key ordering with ES6
@@ -1449,6 +1441,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // Returns true if leaf was actually deleted from the tree
 
 // Run Atom Effects
+
+// SSR should clear out the wake-up resolver if the Promise is resolved
 
 // Save changes to nextTree and schedule a React update:
 
@@ -1645,6 +1639,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // because something above RecoilRoot re-rendered:
 
 // behavior and only batch in `Snapshot.map`, but this would be a breaking
+
+// breaking cache when arguments change
 
 // but state initialization only happens once the first time.
 
@@ -1874,8 +1870,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 // remove any more nodes.
 
-// removed by dead control flow
-
 // reset but have no stored value (validated or unvalidated) to reset from:
 
 // resolved, but also when changing synchronous values because this may cause
@@ -1937,6 +1931,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 // this snapshot gets counted towards the node's live stores count).
 
 // threw their own Promise to "suspend" a selector evaluation.  We need
+
+// to avoid infinite loops.  (See https://github.com/facebookexperimental/Recoil/pull/2073)
 
 // to check that the loadingDepPromise actually matches the promise that
 

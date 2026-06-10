@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { App } from './components/app';
 import { Dialog } from './components/dialog';
 import { getLoadTweetNotifier, LoadTweetsContext } from './load-tweets';
+import { AutoScroll } from './components/auto-scroll';
 
 import { createElementHook } from './utils/hooks';
 
@@ -24,10 +25,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const div = unsafeWindow.document.createElement('div');
     div.id = 'extension';
     div.innerText = 'batch download';
-    div.className = 'bg-transparent absolute top-16 right-16 z-10 min-w-20 min-h-3'
-    div.style.position = 'fixed';
-    div.style.top = '32px';
-    div.style.right = '16px';
+    div.className = 'fixed bg-transparent absolute bottom-8 right-24 z-10 min-w-20 min-h-3'
 
     unsafeWindow.document.body.appendChild(div);
 
@@ -38,6 +36,7 @@ window.addEventListener('DOMContentLoaded', async () => {
           <Toaster position='top-left' />
           <Dialog dialogId={257} />
           <App />
+	  <AutoScroll />
         </RecoilRoot>
       </LoadTweetsContext>
     );

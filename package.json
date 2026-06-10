@@ -23,7 +23,7 @@
     "@types/wicg-file-system-access": "^2020.9.5",
     "autoprefixer": "^10.4.13",
     "css-loader": "^7.1.2",
-    "css-minimizer-webpack-plugin": "^4.2.2",
+    "css-minimizer-webpack-plugin": "^8.0.0",
     "esbuild": "^0.25.5",
     "mini-css-extract-plugin": "^2.7.1",
     "postcss": "^8.5.4",
