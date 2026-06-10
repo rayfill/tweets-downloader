@@ -51,6 +51,7 @@ export async function save(
 
     await Promise.all(jobs);
 
+    console.log('zip generate');
     const blob = await zip.generateAsync({ type: 'blob' },
       (metadata: { percent: number, currentFile: string | null }) => {
         if (archiveNotify !== undefined) {
@@ -61,6 +62,7 @@ export async function save(
           }
         }
       });
+    console.log('zip generated');
     return [blob, filename];
   } catch (e) {
     console.error('failed save tweet', tweet);
@@ -90,9 +92,11 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
     const tweets = tweetIds.map(id => load(id)).filter<Tweet>((maybeTweet): maybeTweet is Tweet => {
       return maybeTweet !== undefined;
     });
-    console.log('before save');
+    console.log('before save', tweets.length);
     const results = (await Promise.all(tweets.map(async (tweet) => {
+      console.log('pre save action', tweet.id);
       const dataOrNull = await save(tweet);
+      console.log('post save action', tweet.id, dataOrNull);
       if (dataOrNull === null) {
         return null;
       }
@@ -135,6 +139,7 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
       }
     }
   } catch (e) {
+    console.error(e);
     toast.error(String(e));
   }
   return saved;
