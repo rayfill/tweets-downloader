@@ -10,9 +10,15 @@ export function AutoScroll() {
   useEffect(() => {
     if (autoScrollEnabled) {
       let beforeScrollY: number | undefined = undefined;
+      let sameCount = 0;
       const id = setInterval(() => {
 	if (beforeScrollY === window.scrollY) {
-	  toggle();
+	  ++sameCount;
+	  if (sameCount > 10) {
+	    toggle();
+	  }
+	} else {
+	  sameCount = 0;
 	}
 	scrollBottomTweet();
 	beforeScrollY = window.scrollY;
