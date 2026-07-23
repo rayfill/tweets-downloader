@@ -46,5 +46,8 @@
     "recoil": "^0.7.6",
     "rxjs": "^7.8.0",
     "zod": "^3.25.53"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
   }
 }

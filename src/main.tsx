@@ -5,6 +5,7 @@ import { App } from './components/app';
 import { Dialog } from './components/dialog';
 import { getLoadTweetNotifier, LoadTweetsContext } from './load-tweets';
 import { AutoScroll } from './components/auto-scroll';
+import { BookmarkRemover } from './components/bookmark-remover';
 
 import { createElementHook } from './utils/hooks';
 
@@ -37,6 +38,7 @@ window.addEventListener('DOMContentLoaded', async () => {
           <Dialog dialogId={257} />
           <App />
 	  <AutoScroll />
+	  <BookmarkRemover />
         </RecoilRoot>
       </LoadTweetsContext>
     );
