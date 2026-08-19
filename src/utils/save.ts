@@ -7,14 +7,18 @@ import { load } from './local-storage';
 import { mark } from './mark';
 import { changeColor } from './hooks';
 
+declare global {
+  const unsafeWindow: Window & typeof globalThis
+};
 export async function save(
   tweet: Tweet,
-  downloadNotify?: DownloadNotify,
-  archiveNotify?: ArchiveNotify
+  _downloadNotify?: DownloadNotify,
+  _archiveNotify?: ArchiveNotify
 ): Promise<[Blob, string] | null> {
 
   try {
-    let zip = new JSZip();
+    const zip = new JSZip();
+
     const userId = tweet.user.id_str;
     const tweetId = tweet.id_str;
     const name = tweet.user.name;
@@ -32,39 +36,25 @@ export async function save(
         url = `${url}?format=${ext}&name=orig`;
       }
 
-      let previous: number = 0;
-      const response = await GM_fetch(url, {
-        onDownloadProgress: (ev: { loaded: number }) => {
-          let totalInFrame = ev.loaded - previous;
-          previous = ev.loaded;
-          if (downloadNotify !== undefined) {
-            downloadNotify(totalInFrame);
-          }
-        }
-      });
+      //let previous: number = 0;
+      const response = await GM_fetch(url);
       if (response.ok) {
-        zip.file(`${index++}.${extension(medium.url)}`, response.blob());
+	zip.file(`${index++}.${extension(medium.url)}`, await response.blob());
         return;
       }
-      throw new TypeError(response.statusText);
+      console.log(response);
+      console.error(response.statusText);
+      throw new Error(response.statusText);
     });
 
     await Promise.all(jobs);
 
     console.log('zip generate');
-    const blob = await zip.generateAsync({ type: 'blob' },
-      (metadata: { percent: number, currentFile: string | null }) => {
-        if (archiveNotify !== undefined) {
-          if (metadata.currentFile === null) {
-            archiveNotify(`${metadata.percent.toPrecision(5)} %`);
-          } else {
-            archiveNotify(`${metadata.currentFile}: ${metadata.percent.toPrecision(5)} %`);
-          }
-        }
-      });
+    const blob = await zip.generateAsync({ type: 'blob' });
     console.log('zip generated');
     return [blob, filename];
   } catch (e) {
+    console.error(e);
     console.error('failed save tweet', tweet);
     return null;
   }
@@ -92,18 +82,24 @@ export async function downloadNoSaveContents(dir: FileSystemDirectoryHandle, twe
     const tweets = tweetIds.map(id => load(id)).filter<Tweet>((maybeTweet): maybeTweet is Tweet => {
       return maybeTweet !== undefined;
     });
-    console.log('before save', tweets.length);
-    const results = (await Promise.all(tweets.map(async (tweet) => {
+
+    for (const tweet of tweets) {
       console.log('pre save action', tweet.id);
+
+      const userId = tweet.user.id_str;
+      const name = tweet.user.name;
+      const filename = `${userId}_${tweet.id_str}_${name}.zip`;
+      if (!await isContinue(dir, filename, callback)) {
+	console.log(`skip save: ${filename}`);
+	continue;
+      }
+
       const dataOrNull = await save(tweet);
       console.log('post save action', tweet.id, dataOrNull);
       if (dataOrNull === null) {
-        return null;
+        continue;
       }
-      return [tweet.id_str, dataOrNull[0], dataOrNull[1]] as [string, Blob, string];
-    }))).filter((data): data is [string, Blob, string] => data !== null);
-    console.log('after save');
-    for (const [tweetId, blob, filename] of results) {
+      const [tweetId, blob, _filename] = [tweet.id_str, dataOrNull[0], dataOrNull[1]] as [string, Blob, string];
       try {
         const result = await saveOnDirectory(dir, filename, blob, callback);
         if (result) {
@@ -163,6 +159,20 @@ function strToUint16Array(str: string) {
   }
 
   return new Uint16Array(array);
+}
+
+export async function isContinue(
+  dir: FileSystemDirectoryHandle,
+  originalFilename: string,
+  queryCallback: OverwriteQueryCallback
+): Promise<boolean> {
+  const filename = replaceBadCharacterForFilename(originalFilename.replace(/\.zip$/, '')) + '.zip';
+  console.log(`escaped filename: ${filename}`);
+  if (await fileExists(dir, filename) && !await queryCallback(filename)) {
+    //debugger;
+    return false;
+  }
+  return true;
 }
 
 export async function saveOnDirectory(
